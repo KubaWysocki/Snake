@@ -1,0 +1,66 @@
+.Button{
+    display: block;
+    color: inherit;
+    font-family: inherit;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    margin: 5vw auto;
+    cursor: pointer;
+    transition: .15s ease;
+}
+.Button:hover {
+    transform: scale(1.05);
+}
+.Settings{
+    width: 80vw;
+    margin: 0 auto;
+    opacity: 0;
+    transition: .3s ease;
+    transition-delay: .6s;
+    font-size: 0.8rem;
+}
+.Settings>div{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.Settings>div>p{
+    width: 100%;
+    margin: 8vw 0 4vw 0;
+    flex-shrink: 0;
+    font-size: 1rem;
+    color: #b31366;
+}
+.Settings>div input{
+    opacity: 0;
+    width: 0;
+    display: none;
+}
+.Settings>div input[type="radio"]:checked+label{
+    color: #77bbe9;
+    font-size: .85rem;
+}
+.Settings>div input[type="radio"]:hover+label{
+    color: #77bbe9;
+}
+.Settings>div input[type="radio"]+label{
+    transition: .1s ease;
+}
+.startButton {
+    opacity: 0;
+    transition-delay: .6s;
+    margin-top: 10vw;
+}
+.showSettings{
+    opacity: 1;
+}
+@media (min-width: 576px) {  
+    .Settings {width:70vw}
+}
+@media (min-width: 992px) { 
+    .Settings {width:60vw}
+    .Settings>div>p {width: 50%; margin: 2vw 0;}
+    .startButton {margin-top: 5vw;}
+}

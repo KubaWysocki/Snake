@@ -1,0 +1,68 @@
+.Board{
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    padding: 4.5vw 4vw 3.8vw 4vw;
+    background-image: url(./FRAME.png);
+    background-size: 100% 100%;
+    opacity: 1;
+    transition: 0.2s ease;
+}
+.border-less{
+    border: 2px solid #18c7f334;
+}
+.border{
+    border: 3px solid #18c7f37c;
+}
+.col{
+    display: inline-block;
+    width: 2.25vw;
+}
+.tile{
+    height: 2.25vw;
+    box-sizing: border-box;
+    border-bottom: 1px solid #18c7f334;
+    border-right: 1px solid #18c7f334;
+}
+.col:last-child .tile{
+    border-right: none;
+}
+.col .tile:last-child{
+    border-bottom: none;
+}
+.point{
+    background-color: #c70707;
+    border: 1px solid #c70707;
+}
+.snake{
+    background-color: green;
+    border: 1px solid green;
+}
+.reset {
+    margin: 0;
+    color: #b31366;
+    margin-left: 8vw;
+}
+.bottom{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5vw;
+}
+span{
+    font-size: 1.6rem
+}
+@media (min-width: 576px) {  
+    .tile {height: 1.8vw}
+    .col {width: 1.8vw}
+    .border {border: 4px solid #18c7f363;}
+}
+@media (min-width: 768px) {  
+    .Board {padding: 3.7vw 3.5vw 3.5vw 3.5vw;}
+    .tile {height: 1.5vw}
+    .col {width: 1.5vw}
+}
+@media (min-width: 1400px) {
+    .Board {padding: 2.5vw 2.2vw 2vw 2.2vw;}
+    .tile {height: 1.1vw}
+    .col {width: 1.1vw}
+}

@@ -1,0 +1,45 @@
+.controlPanel{
+    width: 50vw;
+    height: 50vw;
+    margin: 2vw auto;
+}
+.arrow{
+    width: calc(100%/3);
+    height: calc(100%/3);
+    display: inline-block;
+    background-image: url(./arrow.png);
+    background-size: 100% 100%;
+    transition: 0.1s ease-in;
+}
+.arrow:active{
+    transform: scale(.8);
+}
+.up{
+    transform: rotate(90deg);
+    margin: 0 calc(100%/3);
+}
+.up:active{
+    transform: rotate(90deg) scale(.8);
+}
+.right{
+    margin-left: calc(100%/3);
+    transform: rotate(180deg);
+}
+.right:active{
+    transform: rotate(180deg) scale(.8);
+}
+.down{
+    transform: rotate(-90deg);
+}
+.down:active{
+    transform: rotate(-90deg) scale(.8);
+}
+@media(min-width:576px){
+    .controlPanel { width: 40vw; height: 40vw;}
+}
+@media(min-width:768px){
+    .controlPanel { width: 30vw; height: 30vw;}
+}
+@media(min-width:1025px){
+    .controlPanel { display: none;}
+}
