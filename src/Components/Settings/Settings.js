@@ -44,14 +44,14 @@ class Settings extends PureComponent{
                                         fast: 80 }} 
                              change={ this.setSpeed }
                     >CHOOSE SPEED:</Setting>
-                </div>
-                <button 
-                    className={ this.props.showMenu ? 'Button startButton showSettings' : 'Button startButton' } 
+                    <button 
+                    className='Button startButton'
                     onClick={ () => {
                         this.refs.flag.classList.add('hide');
                         this.props.start(this.options);
                     }}
-                >START</button>
+                    >START</button>
+                </div>
             </div>
         )
     }

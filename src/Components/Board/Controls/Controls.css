@@ -1,7 +1,10 @@
 .controlPanel{
     width: 50vw;
     height: 50vw;
-    margin: 2vw auto;
+    position: absolute;
+    bottom: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .arrow{
     width: calc(100%/3);

@@ -9,21 +9,23 @@ html, body{
     overflow: hidden;
 }
 img{
-    margin: 4.5vw;
+    margin: 2vw;
     transition: .6s ease;
     width: 60vw;
 }
 .dock{
-    transform: scale(0.8) translateY(7vw);
+    transform: scale(0.7);
 }
 .center{
     margin-top: 35vh;
 }
 .flag{
     transition: .3s ease;
+    height: 90vh;
 }
 .banner{
     transition: .6s ease;
+    height: 10vh;
 }
 .show{
     transform: scale(1.15);
@@ -39,16 +41,16 @@ img{
 }
 @media (min-width: 767px) {
     html,body {font-size: 2vw;}
-    img {width: 40vw; margin: 3vw;}
-    .dock {transform: scale(0.7) translateY(5vw);}
+    img {width: 40vw;}
+    .dock {transform: scale(0.7);}
 }
 @media (min-width: 992px) { 
     html,body{font-size: 1.5vw;}
-    img {width: 35vw; margin: 3vw; margin-top: .5vw;}
-    .dock {transform: scale(0.7) translateY(4vw);}
+    img {width: 35vw;}
+    .dock {transform: scale(0.7);}
 }
-@media (min-width: 1400px) {  
+@media (min-width: 1280px) {  
     html,body {font-size: 1vw;}
-    img {width: 25vw; margin: 1.5vw; margin-top: 0;}
-    .dock {transform: scale(0.7) translateY(2vw);}
+    img {width: 25vw; margin: 0;}
+    .dock {transform: scale(0.7);}
 }

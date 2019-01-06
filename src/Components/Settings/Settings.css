@@ -5,7 +5,7 @@
     background: none;
     border: none;
     font-size: 1.8rem;
-    margin: 5vw auto;
+    margin: 10vw auto 0 auto;
     cursor: pointer;
     transition: .15s ease;
 }
@@ -34,24 +34,17 @@
     color: #b31366;
 }
 .Settings>div input{
-    opacity: 0;
-    width: 0;
     display: none;
-}
-.Settings>div input[type="radio"]:checked+label{
-    color: #77bbe9;
-    font-size: .85rem;
-}
-.Settings>div input[type="radio"]:hover+label{
-    color: #77bbe9;
 }
 .Settings>div input[type="radio"]+label{
     transition: .1s ease;
 }
-.startButton {
-    opacity: 0;
-    transition-delay: .6s;
-    margin-top: 10vw;
+.Settings>div input[type="radio"]:checked+label{
+    color: #77bbe9;
+    transform: scale(1.1);
+}
+.Settings>div input[type="radio"]:hover+label{
+    color: #77bbe9;
 }
 .showSettings{
     opacity: 1;

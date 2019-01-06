@@ -27,7 +27,9 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <img alt='snake' src={ snake } ref='LogoImage' className={ this.state.showMenu ? 'banner' : 'banner center'}/>
+        <div ref='LogoImage' className={ this.state.showMenu ? 'banner' : 'banner center'}>
+        <img alt='snake' src={ snake }/>
+        </div>
         {this.state.start ?
           <Board gameState={ this.gameState } reset={ this.stopGame }/>
           :

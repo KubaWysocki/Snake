@@ -23,8 +23,8 @@ class Board extends Component {
     timeoutID = 0;
     componentDidMount(){
         this.points();
-        setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 350);
         if( this.state.border ) this.refs.boardClass.className = 'border';
+        setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 350);
         setTimeout( () => this.refs.flag.classList.remove('show'), 50 );
     }
     componentDidUpdate(){
