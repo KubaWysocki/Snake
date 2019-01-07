@@ -37,12 +37,6 @@
 .down:active{
     transform: rotate(-90deg) scale(.8);
 }
-@media(min-width:576px){
-    .controlPanel { width: 40vw; height: 40vw;}
-}
-@media(min-width:768px){
-    .controlPanel { width: 30vw; height: 30vw;}
-}
 @media(min-width:1025px){
     .controlPanel { display: none;}
 }
