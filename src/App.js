@@ -9,11 +9,16 @@ import Board from './Components/Board/Board';
 class App extends Component {
   state = {
     start: false,
-    showMenu: false
+    showMenu: false,
+    gameState: {
+      acceleration: false,
+      board: { width: 30, height: 23 },
+      border: false,
+      speed: 160
+    }
   }
-  gameState = {}
   startGame = ( gameState ) => {
-    this.gameState = gameState;
+    this.setState({ gameState });
     this.refs.LogoImage.classList.add('dock');
     setTimeout( () => this.setState({ start: true }), 300 );
   }
@@ -27,13 +32,21 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <div ref='LogoImage' className={ this.state.showMenu ? 'banner' : 'banner center'}>
+        <div ref='LogoImage' className={ this.state.showMenu ? 'banner' : 'banner center' }>
         <img alt='snake' src={ snake }/>
         </div>
         {this.state.start ?
-          <Board gameState={ this.gameState } reset={ this.stopGame }/>
+          <Board 
+            gameState={ this.state.gameState } 
+            reset={ this.stopGame }
+          />
           :
-          <Settings start={ this.startGame } showMenuHandler={ this.showMenuHandler } showMenu={ this.state.showMenu }/>
+          <Settings 
+            start={ this.startGame } 
+            showMenuHandler={ this.showMenuHandler } 
+            showMenu={ this.state.showMenu }
+            gameState={ this.state.gameState }
+          />
         }
       </div>
     );

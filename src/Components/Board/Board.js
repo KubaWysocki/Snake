@@ -55,9 +55,9 @@ class Board extends Component {
         if( headPosition === this.state.pointPosition ){
             snakeLength += 1;
             this.setState({ snake: { X, Y, snakeLength }});
-            if( this.state.acceleration && this.state.speed>5 ){
+            if( this.state.acceleration && this.state.speed>=16 ){
                 let speed = this.state.speed;
-                speed -= 5;
+                speed -= 2;
                 this.setState({ speed });
             }
             this.points();
@@ -81,7 +81,7 @@ class Board extends Component {
         
         this.setState({ snake:{ X, Y, snakeLength }})
     }
-    controls = (e) => {
+    controls = ( e ) => {
         window.removeEventListener('keydown', this.controls);
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'none' );
         let direction = this.state.direction;
