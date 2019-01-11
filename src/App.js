@@ -26,14 +26,13 @@ class App extends Component {
     this.refs.LogoImage.classList.remove('dock');
     setTimeout( () => this.setState({ start: false }), 300 );
   }
-  showMenuHandler = () => {
-    this.setState({ showMenu: true });
-  }
+  showMenuHandler = () => this.setState({ showMenu: true });
+  
   render() {
     return (
       <div className='App'>
         <div ref='LogoImage' className={ this.state.showMenu ? 'banner' : 'banner center' }>
-        <img alt='snake' src={ snake }/>
+          <img alt='snake' src={ snake }/>
         </div>
         {this.state.start ?
           <Board 

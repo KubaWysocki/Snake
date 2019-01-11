@@ -39,6 +39,24 @@ class Board extends Component {
         this.move( this.state.snake );
         this.game( this.state.snake, this.state.tailPositions );
     }
+    move = ({ X, Y, snakeLength }) => {
+        if( this.state.direction === 'n' ) Y--;
+        if( this.state.direction === 's' ) Y++;
+        if( this.state.direction === 'e' ) X++;
+        if( this.state.direction === 'w' ) X--;
+    
+        if( this.state.border ){
+          if( X >= this.state.board.width || X < 0 || Y >= this.state.board.height || Y < 0) this.setState({ gameOver: true });
+        }
+        else{
+            if( X < 0 ) X=this.state.board.width-1;
+            if( Y < 0 ) Y=this.state.board.height-1;
+            if( X > this.state.board.width-1 ) X=0;
+            if( Y > this.state.board.height-1 ) Y=0;
+        }
+        
+        this.setState({ snake:{ X, Y, snakeLength }})
+    }
     game = ({ X, Y, snakeLength }, tailPositions) => {
         window.addEventListener( 'keydown', this.controls );
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'auto' );
@@ -62,24 +80,6 @@ class Board extends Component {
             }
             this.points();
         }
-    }
-    move = ({ X, Y, snakeLength }) => {
-        if( this.state.direction === 'n' ) Y--;
-        if( this.state.direction === 's' ) Y++;
-        if( this.state.direction === 'e' ) X++;
-        if( this.state.direction === 'w' ) X--;
-    
-        if( this.state.border ){
-          if( X >= this.state.board.width || X < 0 || Y >= this.state.board.height || Y < 0) this.setState({ gameOver: true });
-        }
-        else{
-            if( X < 0 ) X=this.state.board.width-1;
-            if( Y < 0 ) Y=this.state.board.height-1;
-            if( X > this.state.board.width-1 ) X=0;
-            if( Y > this.state.board.height-1 ) Y=0;
-        }
-        
-        this.setState({ snake:{ X, Y, snakeLength }})
     }
     controls = ( e ) => {
         window.removeEventListener('keydown', this.controls);
