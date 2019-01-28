@@ -36,6 +36,7 @@ class Settings extends Component{
                              checkedValue={ this.props.speed }
                              change={ value  => this.props.setSetting( 'speed', value )}
                     > CHOOSE SPEED: </Setting>
+                    <br/><br/><br/>
                     <button className='Button startButton'
                             onClick={ () => {
                                 this.refs.flag.classList.add('hide')

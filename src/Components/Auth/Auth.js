@@ -12,12 +12,15 @@ import Spinner from '../UI/Spinner/Spinner'
 class Auth extends Component {
     state = {
         login: {
-            Nickname: '',
-            Password: '',
+            Nickname: localStorage.getItem('nickname'),
+            Password: localStorage.getItem('password'),
         },
         path: 'verifyPassword'
     }
-    componentDidMount = () => setTimeout( () => this.refs.flag.classList.remove('show'), 50)
+    componentDidMount() {
+        setTimeout( () => this.refs.flag.classList.remove('show'), 50)
+        //if( localStorage.getItem('nickname') !== null ) this.changeLoginMode('verifyPassword')
+    }
 
     inputChanged = ( event, key ) => this.setState({ login: {...this.state.login, [key]: event.target.value }})
     redirect = () => {
@@ -36,15 +39,15 @@ class Auth extends Component {
                     <div ref='loginMode' className='toggler'>
                         <Setting options={{ signin: 'verifyPassword',
                                             signup: 'signupNewUser' }} 
-                                checkedValue={ 'verifyPassword' }
+                                checkedValue={ this.state.path }
                                 change={ path => this.changeLoginMode(path) }
                         />
                     </div>
                     <Inputs authData={ this.state.login } change={ this.inputChanged }/>
                     <button onClick={() => this.props.login( this.state )}> LOGIN </button>
-                    <button onClick={ this.redirect }> OFFLINE </button>
+                    <button className='offline' onClick={ this.redirect }> OFFLINE </button>
 
-                    { this.props.error ? <div> Something went wrong! <br/><br/>{ this.props.error } </div> : null }
+                    { this.props.error ? <div> Something went wrong! <br/>{ this.props.error } </div> : null }
                     { this.props.loading ? <Spinner/> : null }
                 </div>
             </div>

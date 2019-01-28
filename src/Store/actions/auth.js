@@ -17,7 +17,7 @@ const loginError = error => ({
 })
 export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
     dispatch( authStart() )
-    if (Nickname.length < 4) return dispatch( loginError( 'NICKNAME_TO_SHORT' ))
+    if (Nickname.length < 4) return dispatch( loginError( 'NICKNAME_TOO_SHORT' ))
     const authData = {
         email: Nickname + '@snake.com',
         password: Password,
@@ -26,6 +26,8 @@ export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
     let url= `https://www.googleapis.com/identitytoolkit/v3/relyingparty/${ path }?key=AIzaSyBRraYm45nBCy-F7Ka-3lx04FFmBGGMoYI`
     axios.post( url, authData )
         .then( response => {
+            localStorage.setItem('nickname', Nickname)
+            localStorage.setItem('password', Password)
             dispatch( loginResponse( response.data, Nickname ))
         })
         .catch( error => {

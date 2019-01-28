@@ -6,7 +6,8 @@
     height: 30vh;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%)
+    transform: translate(-50%,-50%);
+    line-height: 1.5;
 }
 .toggler{
     margin: 15px auto 10px auto;
@@ -32,17 +33,34 @@
     margin: 5px auto;
     text-align: center;
     display: block;
+    background-color: #070707;
+    color: white;
+    border: 2px solid #242121;
+    padding: 5px 0;
+    font-family: inherit;
+    font-size: .9rem;
+    width: 80%;
+    border-radius: 2px;
+}
+::placeholder {
+    color: #4b4545;
+    opacity: 1; /* Firefox */
 }
 .Auth>div input[type="radio"]+label{
     position: relative;
     display: inline-block;
     margin: 0 5px;
+    color: #530e31;
 }
 .Auth>div input[type="radio"]:checked+label {
     color: #b31366;
 }
 .Auth button {
-    background-color: white;
-    margin: 10px auto;
+    margin: 20px auto;
     display: block;
+    font-family: inherit;
+    color: #77bbe9;
+}
+.offline {
+    color: #530e31 !important;
 }

@@ -8,6 +8,9 @@ html, body{
     text-align: center;
     overflow: hidden;
 }
+* {
+    outline: none;
+}
 img{
     margin: 2vw;
     transition: .6s ease;
