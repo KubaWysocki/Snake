@@ -1,0 +1,48 @@
+.Auth {
+    width: 70vw;
+    color: white;
+    font-size: 1.3rem;
+    position: absolute;
+    height: 30vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%)
+}
+.toggler{
+    margin: 15px auto 10px auto;
+    position: relative;
+    display: inline-block;
+    transition: .3s ease;
+}
+.toggler::before{
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    height: 3px;
+    width: 50%;
+    background-color: #b31366;
+    transition: .3s ease;
+}
+.toggler.active::before{
+    left: 50%;
+}
+.Auth input[type='text'], 
+.Auth input[type='password'] {
+    margin: 5px auto;
+    text-align: center;
+    display: block;
+}
+.Auth>div input[type="radio"]+label{
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+}
+.Auth>div input[type="radio"]:checked+label {
+    color: #b31366;
+}
+.Auth button {
+    background-color: white;
+    margin: 10px auto;
+    display: block;
+}

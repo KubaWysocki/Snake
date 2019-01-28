@@ -1,54 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Switch, Route, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import './App.css';
-import snake from './snake.png';
+import './App.css'
+import snake from './assets/snake.png'
 
-import Settings from './Components/Settings/Settings';
-import Board from './Components/Board/Board';
+import Settings from './Components/Settings/Settings'
+import Board from './Components/Board/Board'
+import Auth from './Components/Auth/Auth'
+import Scoreboard from './Components/Scoreboard/Scoreboard'
 
 class App extends Component {
-  state = {
-    start: false,
-    showMenu: false,
-    gameState: {
-      acceleration: false,
-      board: { width: 30, height: 23 },
-      border: false,
-      speed: 160
-    }
+
+  componentDidMount = () => ( this.props.location.pathname !== '/' ) ? this.refs.LogoImage.classList.remove('center') : null
+
+  loginContinue = () => {
+    this.refs.LogoImage.classList.remove('center')
+    setTimeout( () => this.props.history.push('/settings'), 300 )
   }
-  startGame = ( gameState ) => {
-    this.setState({ gameState });
-    this.refs.LogoImage.classList.add('dock');
-    setTimeout( () => this.setState({ start: true }), 300 );
+  enterScoreboard = () => {
+    setTimeout( () => this.props.history.push('/scoreboard'), 300 )
+  }
+  exitScoreboard = () => {
+    setTimeout( () => this.props.history.push('/settings'), 300 )
+  }
+  startGame = () => {
+    this.refs.LogoImage.classList.add('dock')
+    setTimeout( () => this.props.history.push('/game'), 300 )
   }
   stopGame = () => {
-    this.refs.LogoImage.classList.remove('dock');
-    setTimeout( () => this.setState({ start: false }), 300 );
-  }
-  showMenuHandler = () => this.setState({ showMenu: true });
-  
+    this.refs.LogoImage.classList.remove('dock')
+    setTimeout( () => this.props.history.push('/settings'), 300 ) 
+  }  
   render() {
+    const gameMode = Object.values( this.props.gameMode )
+            .map(( el, i ) => {
+                if( typeof el == 'object' ) return Object.values( this.props.gameMode[ Object.keys( this.props.gameMode )[i]]).join('x')
+                else return el
+            }).join('-')
     return (
       <div className='App'>
-        <div ref='LogoImage' className={ this.state.showMenu ? 'banner' : 'banner center' }>
+        <div ref='LogoImage' className='banner center'>
           <img alt='snake' src={ snake }/>
         </div>
-        {this.state.start ?
-          <Board 
-            gameState={ this.state.gameState } 
-            reset={ this.stopGame }
-          />
-          :
-          <Settings 
-            start={ this.startGame } 
-            showMenuHandler={ this.showMenuHandler } 
-            showMenu={ this.state.showMenu }
-            gameState={ this.state.gameState }
-          />
-        }
+        <Switch>
+          <Route path='/game' render={() => <Board reset={ this.stopGame } gameMode={ gameMode }/>} />
+          <Route path='/scoreboard' render={() => <Scoreboard exit={ this.exitScoreboard } gameMode={ gameMode }/>} />
+          <Route path='/settings' render={() => <Settings startGame={ this.startGame } scoreboard={ this.enterScoreboard }/>} />
+          <Route path='/' exact render={() => <Auth loginContinue={ this.loginContinue }/>} />
+        </Switch>
       </div>
-    );
+    )
   }
 }
-export default App;
+const mapStateToProps = state => ({
+  gameMode: state.game
+})
+export default withRouter( connect( mapStateToProps )( App ) )

@@ -1,0 +1,10 @@
+.Scoreboard {
+    width: 90vw;
+    height: 75vh;
+    box-sizing: border-box;
+    margin: 2vh auto;
+    margin-top: 5vh;
+    padding: 8% 5% 3% 5%;
+    background-image: url(../../assets/FRAME.png);
+    background-size: 100% 100%;
+}
