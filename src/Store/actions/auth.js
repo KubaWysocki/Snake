@@ -17,7 +17,10 @@ const loginError = error => ({
 })
 export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
     dispatch( authStart() )
-    if (Nickname.length < 4) return dispatch( loginError( 'NICKNAME_TOO_SHORT' ))
+    const validChars = /^[0-9a-zA-Z]+$/
+    if ( Nickname.length < 4 ) return dispatch( loginError( 'NICKNAME_TOO_SHORT' ))
+    if ( Nickname.length > 14 ) return dispatch( loginError( 'NICKNAME_TOO_LONG' ))
+    if ( !validChars.test(Nickname) ) return dispatch( loginError( 'INVALID_CHARACTERS' ))
     const authData = {
         email: Nickname + '@snake.com',
         password: Password,

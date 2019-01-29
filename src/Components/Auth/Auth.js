@@ -49,10 +49,9 @@ class Auth extends Component {
                     <Inputs authData={ this.state.login } change={ this.inputChanged }/>
                     <button onClick={() => this.props.login( this.state )}> LOGIN </button>
                     <button className='offline' onClick={ this.redirect }> OFFLINE </button>
-
-                    { this.props.error ? <div> Something went wrong! <br/>{ this.props.error } </div> : null }
-                    { this.props.loading ? <Spinner/> : null }
+                { this.props.loading ? <Spinner/> : null }
                 </div>
+                { this.props.error ? <div className='error'> Something went wrong! <br/>{ this.props.error } </div> : null }
             </div>
         )
     }

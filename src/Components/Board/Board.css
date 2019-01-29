@@ -45,15 +45,14 @@
 .reset {
     margin: 0;
     color: #b31366;
-    margin-left: 8vw;
+    margin-left: 3vw;
 }
 .bottom{
     display: flex;
     justify-content: center;
-    margin-top: 1.5vw;
-}
-span{
-    font-size: 1.6rem
+    align-items: center;
+    margin-top: 1.5vh;
+    font-size: 1.3rem
 }
 @media (min-width: 576px) {  
     .tile {height: 2vw}
