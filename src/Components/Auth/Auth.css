@@ -30,7 +30,7 @@
 }
 .Auth input[type='text'], 
 .Auth input[type='password'] {
-    margin: 5px auto;
+    margin: 10px auto;
     text-align: center;
     display: block;
     background-color: #070707;
@@ -39,8 +39,14 @@
     padding: 5px 0;
     font-family: inherit;
     font-size: .9rem;
-    width: 80%;
+    width: 50%;
+    min-width: 210px;
     border-radius: 2px;
+}
+.Auth input[type='text']+label, 
+.Auth input[type='password']+label {
+    font-size: 0;
+    position: absolute;
 }
 ::placeholder {
     color: #4b4545;
@@ -56,11 +62,20 @@
     color: #b31366;
 }
 .Auth button {
-    margin: 20px auto;
+    margin: 30px auto;
     display: block;
     font-family: inherit;
     color: #77bbe9;
+    background-color: #000;
+    border: none;
+    font-size: 1.5rem;
 }
 .offline {
     color: #530e31 !important;
+}
+@media (min-width: 992px) {
+    .Auth input[type='text'], 
+    .Auth input[type='password']{
+        width: 250px;
+    }
 }

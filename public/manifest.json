@@ -11,6 +11,7 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "orientation": "portrait"
+  "background_color": "#000000",
+  "orientation": "portrait",
+  "homepage": "https://kubawysocki.github.io/Snake/"
 }

@@ -51,8 +51,7 @@
     color: #77bbe9;
     transform: scale(1.1);
 }
-.Settings>div input[type="radio"]:hover+label,
-.Auth>div input[type="radio"]:hover+label{
+.Settings>div input[type="radio"]:hover+label {
     color: #77bbe9;
 }
 @media (min-width: 576px) {  

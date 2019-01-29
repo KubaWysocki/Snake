@@ -17,9 +17,12 @@ class Auth extends Component {
         },
         path: 'verifyPassword'
     }
+    componentWillMount() {
+        if( localStorage.getItem('nickname') === null ) this.setState({path: 'signupNewUser'})
+    }
     componentDidMount() {
         setTimeout( () => this.refs.flag.classList.remove('show'), 50)
-        //if( localStorage.getItem('nickname') !== null ) this.changeLoginMode('verifyPassword')
+        if( localStorage.getItem('nickname') === null ) this.refs.loginMode.classList.toggle('active')
     }
 
     inputChanged = ( event, key ) => this.setState({ login: {...this.state.login, [key]: event.target.value }})
