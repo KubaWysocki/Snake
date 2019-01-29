@@ -7,4 +7,17 @@
     padding: 8% 5% 3% 5%;
     background-image: url(../../assets/FRAME.png);
     background-size: 100% 100%;
+    line-height: 1.5;
+}
+.Scoreboard .record {
+    display: flex;
+}
+.record .lp, .record .score{
+    width: 15%;
+}
+.record .nick {
+    width: 70%;
+}
+@media (min-width: 992px) { 
+ .Scoreboard{width: 50vw;}
 }

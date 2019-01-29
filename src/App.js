@@ -34,11 +34,11 @@ class App extends Component {
     setTimeout( () => this.props.history.push('/settings'), 300 ) 
   }  
   render() {
-    const gameMode = Object.values( this.props.gameMode )
-            .map(( el, i ) => {
-                if( typeof el == 'object' ) return Object.values( this.props.gameMode[ Object.keys( this.props.gameMode )[i]]).join('x')
-                else return el
-            }).join('-')
+    const gameMode = this.props.gameMode.acceleration
+                    +'-'+this.props.gameMode.board.width
+                    +'x'+this.props.gameMode.board.height
+                    +'-'+this.props.gameMode.border
+                    +'-'+this.props.gameMode.speed
     return (
       <div className='App'>
         <div ref='LogoImage' className='banner center'>

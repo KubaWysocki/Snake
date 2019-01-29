@@ -31,10 +31,10 @@ class Scoreboard extends Component {
                             this.state.scoreboard
                                 .sort((a,b)=>b[1]-a[1])
                                 .map( ( el, i ) => {
-                                return <div key={el[0]}>
-                                    {i+1+'.'}
-                                    { el[0] } &nbsp;
-                                    { el[1] }
+                                return <div key={el[0]} className='record'>
+                                    <div className='lp'>{i+1+'.'}</div>
+                                    <div className='nick'>{ el[0] }</div>
+                                    <div className='score'>{ el[1] }</div>
                                 </div>
                             }) : null
                         }
