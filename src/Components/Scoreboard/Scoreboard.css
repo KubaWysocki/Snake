@@ -12,11 +12,18 @@
 .Scoreboard .record {
     display: flex;
 }
+.userRecord {
+    color: #77bbe9;
+}
 .record .lp, .record .score{
     width: 15%;
 }
 .record .nick {
     width: 70%;
+}
+.back {
+    margin: 1vh auto;
+    color: #b31366;
 }
 @media (min-width: 992px) { 
  .Scoreboard{width: 50vw;}

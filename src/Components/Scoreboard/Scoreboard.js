@@ -26,26 +26,23 @@ class Scoreboard extends Component {
                 <div className='holder'>
                     <div className='Scoreboard'>
                         { this.state.loading ? <Spinner/> : null }
-                        { this.state.scoreboard.length === 0 && !this.state.loading ? 'There are no scores in this game mode' : null }
                         { this.state.scoreboard.length  ? 
                             this.state.scoreboard
                                 .sort((a,b)=>b[1]-a[1])
-                                .map( ( el, i ) => {
-                                return <div key={el[0]} className='record'>
-                                    <div className='lp'>{i+1+'.'}</div>
-                                    <div className='nick'>{ el[0] }</div>
-                                    <div className='score'>{ el[1] }</div>
-                                </div>
-                            }) : null
+                                .map( ( el, i ) =>  <div key={ el[0] } 
+                                                    className={ this.props.userData.userName === el[0] ? 'record userRecord' : 'record'}>
+                                                        <div className='lp'>{i+1+'.'}</div>
+                                                        <div className='nick'>{ el[0] }</div>
+                                                        <div className='score' >{ el[1] }</div>
+                                                    </div>
+                            ) : null
                         }
                     </div>
-                    <button className='Button' 
-                            style={{margin: '1vh auto'}}
+                    <button className='Button back' 
                             onClick={() => {
                                 this.props.exit()
                                 this.refs.flag.classList.add('hide')
-                            }}
-                            > BACK </button>
+                            }}> BACK </button>
                 </div>
             </div>
         )
