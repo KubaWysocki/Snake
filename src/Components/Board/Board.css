@@ -48,24 +48,30 @@
     margin-left: 3vw;
 }
 .bottom{
+    margin: 1.5vh auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 1.5vh;
     font-size: 1.3rem
+}
+.bottom span {
+    margin: 0 15px;
 }
 @media (min-width: 576px) {  
     .tile {height: 2vw}
     .col {width: 2vw}
     .border {border: 4px solid #18c7f363;}
+    .bottom {width: 90%}
 }
 @media (min-width: 768px) {  
     .Board {padding: 3.7vw 3.5vw 3.5vw 3.5vw;}
     .tile {height: 1.8vw}
     .col {width: 1.8vw}
+    .bottom {width: 70%}
 }
 @media (min-width: 1280px) {
     .Board {padding: 2.5vw 2.2vw 2vw 2.2vw;}
     .tile {height: 1.2vw}
     .col {width: 1.2vw}
+    .bottom {width: 40%}
 }

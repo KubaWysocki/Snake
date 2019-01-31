@@ -62,6 +62,6 @@ const mapStateToProps = state => ({
     loading: state.auth.loading
 })
 const mapDispatchToProps = dispatch => ({
-    login: ( data ) => dispatch( login( data ))
+    login: data => dispatch( login( data ))
 })
 export default connect( mapStateToProps, mapDispatchToProps )( Auth )

@@ -55,7 +55,6 @@ class Board extends Component {
             if( X > this.props.board.width-1 ) X=0
             if( Y > this.props.board.height-1 ) Y=0
         }
-        
         this.setState({ snake:{ X, Y, snakeLength }})
     }
     game = ({ X, Y, snakeLength }, tailPositions) => {
@@ -114,37 +113,37 @@ class Board extends Component {
         return(
             <div className='flag show' ref='flag'>
                 <div className='holder'>
-                <div className='Board'>
-                    <div className='border-less' ref='boardClass'>
-                        { [...Array(this.props.board.width)]
-                            .map(( _, i ) => {
-                                return(
-                                    <div className='col' key={ i }>
-                                    {
-                                        [...Array(this.props.board.height)]
-                                        .map(( _, j ) => {
-                                            let tileClass = 'tile',
-                                                cord = i+','+j
-                                            this.state.tailPositions.forEach( el => { if(el===cord) tileClass = 'snake tile'})
-                                            if(this.state.pointPosition===cord) tileClass = 'point tile'
-                                            return <div className={ tileClass } key={ cord }></div>
-                                        })
-                                    }
-                                    </div>
-                                )
-                            })
-                        }
-                        { this.state.gameOver ? <LoseScreen/> : null }
+                    <div className='Board'>
+                        <div className='border-less' ref='boardClass'>
+                            { [...Array(this.props.board.width)]
+                                .map(( _, i ) => {
+                                    return(
+                                        <div className='col' key={ i }>
+                                        {
+                                            [...Array(this.props.board.height)]
+                                            .map(( _, j ) => {
+                                                let tileClass = 'tile',
+                                                    cord = i+','+j
+                                                this.state.tailPositions.forEach( el => { if(el===cord) tileClass = 'snake tile'})
+                                                if(this.state.pointPosition===cord) tileClass = 'point tile'
+                                                return <div className={ tileClass } key={ cord }></div>
+                                            })
+                                        }
+                                        </div>
+                                    )
+                                })
+                            }
+                            { this.state.gameOver ? <LoseScreen/> : null }
+                        </div>
                     </div>
-                </div>
-                <div className='bottom'>
-                    <span>SCORE: { this.state.snake.snakeLength-2 }</span>
-                    <button className='Button reset'
-                            onClick={() => {
-                                this.refs.flag.classList.add('hide')
-                                this.props.reset()
-                    }}>RESET</button>
-                </div>
+                    <div className='bottom'>
+                        <span>SCORE: { this.state.snake.snakeLength-2 }</span>
+                        <button className='Button reset'
+                                onClick={() => {
+                                    this.refs.flag.classList.add('hide')
+                                    this.props.reset()
+                        }}>RESET</button>
+                    </div>
                 </div>
                 <Controls controls={ this.controls }/>
             </div>

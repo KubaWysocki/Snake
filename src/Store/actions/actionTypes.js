@@ -4,3 +4,5 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 //GAME
 export const SET_SETTING = 'SET_SETTING'
+export const CHANGE_MODE = 'CHANGE_MODE'
+export const LOAD_SCOREBOARD = 'LOAD_SCOREBOARD'

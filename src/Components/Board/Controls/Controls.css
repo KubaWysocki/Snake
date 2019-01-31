@@ -1,6 +1,6 @@
 .controlPanel{
-    width: 50vw;
-    height: 50vw;
+    width: 37vh;
+    height: 37vh;
     position: absolute;
     bottom: 2vh;
     left: 50%;
@@ -36,6 +36,9 @@
 }
 .down:active{
     transform: rotate(-90deg) scale(.8);
+}
+@media(max-height: 500px){
+    .controlPanel {width: 33vh; height: 33vh;}
 }
 @media(min-width:1025px){
     .controlPanel { display: none;}
