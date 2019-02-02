@@ -1,37 +1,17 @@
 import * as actionTypes from './actionTypes'
 
-import axios from '../../axiosFirebase'
-
 import allGameModes from './allGameModes.json'
 
-const scoreboard = (gameMode, scoreboard) => ({
-    type: actionTypes.CHANGE_MODE, 
-    mode: gameMode,
-    scoreboard
-})
-const loading = () => ({
-    type: actionTypes.LOAD_SCOREBOARD,
-    loading: true
-})
-export const changeMode = ( actualMode, prev_next ) => dispatch => {
-    dispatch( loading() )
-    let index = allGameModes.indexOf(actualMode)
-    if( prev_next === 'prev' ) index-=1;
-    if( prev_next === 'next' ) index+=1;
+export const changeMode = ( actualMode, direction ) => {
+    let index = allGameModes.indexOf( actualMode )
+    if( direction === 'prev' ) index--
+    if( direction === 'next' ) index++
     if( index > 35 ) index = 0;
-    if( index < 0 ) index = 35;
-    let mode = allGameModes[ index ].split('-')
-    mode[0] = mode[0] === 'true'
-    mode[1] = mode[1].split('x')
-    mode[2] = mode[2] ==='true'
-    const gameMode = {
-        acceleration: mode[0],
-        board: { width: +mode[1][0], height: +mode[1][1] },
-        border: mode[2],
-        speed: +mode[3]
-    }
-    axios.get(allGameModes[ index ]+'.json')
-        .then (response => {
-            dispatch( scoreboard( gameMode, Object.values( response.data )))
-        })
+    if( index < 0 )  index = 35;
+    let settings = allGameModes[ index ].split('-')
+        settings[0] = settings[0] === 'true'
+        settings[1] = settings[1].split('x').map(el => +el)
+        settings[2] = settings[2] === 'true'
+        settings[3] = +settings[3]
+    return { type: actionTypes.CHANGE_MODE, settings }
 }

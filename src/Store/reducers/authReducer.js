@@ -10,14 +10,12 @@ const initialState = {
 const reducer = ( state= initialState, action) => {
     switch( action.type ){
         case actionTypes.START_AUTH:    return { ...state, loading: true }
-        case actionTypes.LOGIN_SUCCESS: return { ...state, 
-                                                loading: false, 
-                                                error: null, 
-                                                token: action.token, 
-                                                userId: action.userId, 
-                                                userName: action.userName 
-                                                }
         case actionTypes.LOGIN_ERROR:   return { ...state, loading: false, error: action.error }
+        case actionTypes.LOGIN_SUCCESS: return { loading: false, 
+                                                 error: null, 
+                                                 token: action.token, 
+                                                 userId: action.userId, 
+                                                 userName: action.userName }
         default: return state
     }
 }

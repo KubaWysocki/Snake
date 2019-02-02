@@ -124,8 +124,8 @@ class Board extends Component {
                                             .map(( _, j ) => {
                                                 let tileClass = 'tile',
                                                     cord = i+','+j
-                                                this.state.tailPositions.forEach( el => { if(el===cord) tileClass = 'snake tile'})
-                                                if(this.state.pointPosition===cord) tileClass = 'point tile'
+                                                this.state.tailPositions.forEach( el => { if(el === cord) tileClass = 'snake tile'})
+                                                if(this.state.pointPosition === cord) tileClass = 'point tile'
                                                 return <div className={ tileClass } key={ cord }></div>
                                             })
                                         }

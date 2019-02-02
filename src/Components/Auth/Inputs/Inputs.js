@@ -12,7 +12,7 @@ const Inputs = ( props ) => {
                             type={ key === 'Password' ? 'password' : 'text' }
                             onChange={ e => props.change( e, key )}
                         />
-                        <label htmlFor={ key }>{key}</label>
+                        <label htmlFor={ key }>{ key }</label>
                     </React.Fragment>
         })
     )

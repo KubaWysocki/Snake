@@ -41,7 +41,7 @@
     font-size: .9rem;
     width: 50%;
     min-width: 210px;
-    border-radius: 2px;
+    border-radius: 3px;
 }
 .Auth input[type='text']+label, 
 .Auth input[type='password']+label {

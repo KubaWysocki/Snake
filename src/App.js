@@ -57,4 +57,4 @@ class App extends Component {
 const mapStateToProps = state => ({
   gameMode: state.game
 })
-export default withRouter( connect( mapStateToProps )( App ) )
+export default withRouter( connect( mapStateToProps )( App ))
