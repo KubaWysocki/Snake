@@ -11,6 +11,9 @@ import Auth from './Components/Auth/Auth'
 import Scoreboard from './Components/Scoreboard/Scoreboard'
 
 class App extends Component {
+  componentWillMount() {
+    document.addEventListener("touchmove", (e) => e.preventDefault())
+  }
   componentDidMount() {
     if ( this.props.location.pathname !== '/' ) this.refs.LogoImage.classList.remove('center')
   }

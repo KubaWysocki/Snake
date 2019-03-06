@@ -101,10 +101,11 @@ class Board extends Component {
     gameOver = () => {
         this.setState({gameOver: true})
         if( this.props.userData.token ) {
-            axios.get(this.props.gameMode+'/'+this.props.userData.userId+'.json?auth=' + this.props.userData.token )
+            axios.get(this.props.gameMode + '/' + this.props.userData.userId + '.json?auth=' + this.props.userData.token )
             .then( response => {
                 if ( response.data === null || response.data[1] < this.state.snake.snakeLength-2 ) {
-                    axios.put(this.props.gameMode+'/'+this.props.userData.userId+'.json', [this.props.userData.userName, this.state.snake.snakeLength-2])
+                    axios.put(this.props.gameMode + '/' + this.props.userData.userId + '.json?auth=' + this.props.userData.token, 
+                            [this.props.userData.userName, this.state.snake.snakeLength-2])
                 }
             })
         }
