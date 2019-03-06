@@ -21,7 +21,7 @@ class Scoreboard extends Component {
         if ( this.props.gameMode !== prevProps.gameMode ) this.getScoreboard()
     }
     getScoreboard = () => {
-        axios.get( this.props.gameMode +'.json' )
+        axios.get( this.props.gameMode +'.json?auth=' + this.props.userData.token )
             .then( response => {
                 this.setState({ scoreboard: Object.values( response.data ), loading: false })
             })
