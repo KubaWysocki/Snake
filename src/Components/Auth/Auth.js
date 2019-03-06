@@ -24,7 +24,9 @@ class Auth extends Component {
         setTimeout( () => this.refs.flag.classList.remove('show'), 50)
         if( localStorage.getItem('nickname') === null ) this.refs.loginMode.classList.toggle('active')
     }
-
+    componentDidUpdate( prevProps ) {
+        if( this.props.auth ) this.redirect()
+    }
     inputChanged = ( event, key ) => this.setState({ login: {...this.state.login, [key]: event.target.value }})
     redirect = () => {
         this.refs.flag.classList.add('hide')
@@ -35,7 +37,6 @@ class Auth extends Component {
         this.refs.loginMode.classList.toggle('active')
     }
     render(){
-        if( this.props.auth ) this.redirect()
         return (
             <div className='flag show' ref='flag'>
                 <div className='Auth'>
