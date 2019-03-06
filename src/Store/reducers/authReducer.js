@@ -5,7 +5,8 @@ const initialState = {
     userId: null,
     userName: null,
     error: null,
-    loading: false
+    loading: false,
+    expirationTime: false
 }
 const reducer = ( state= initialState, action) => {
     switch( action.type ){
@@ -15,7 +16,9 @@ const reducer = ( state= initialState, action) => {
                                                  error: null, 
                                                  token: action.token, 
                                                  userId: action.userId, 
-                                                 userName: action.userName }
+                                                 userName: action.userName,
+                                                 expirationTime: false }
+        case actionTypes.EXPIRATION_TIME: return { ...state, expirationTime: true, userId: null, token: null } 
         default: return state
     }
 }

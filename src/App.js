@@ -11,9 +11,11 @@ import Auth from './Components/Auth/Auth'
 import Scoreboard from './Components/Scoreboard/Scoreboard'
 
 class App extends Component {
-
   componentDidMount() {
     if ( this.props.location.pathname !== '/' ) this.refs.LogoImage.classList.remove('center')
+  }
+  componentDidUpdate(prevProps) {
+    if( prevProps.expirationTime !== this.props.expirationTime && this.props.expirationTime === true ) this.props.history.push('/')
   }
   loginContinue = () => {
     this.refs.LogoImage.classList.remove('center')
@@ -55,6 +57,7 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => ({
-  gameMode: state.game
+  gameMode: state.game,
+  expirationTime: state.auth.expirationTime
 })
 export default withRouter( connect( mapStateToProps )( App ))

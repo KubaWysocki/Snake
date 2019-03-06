@@ -15,6 +15,14 @@ const loginError = error => ({
     type: actionTypes.LOGIN_ERROR,
     error: error.replace('EMAIL', 'NICKNAME')
 })
+const logout = () => ({
+    type: actionTypes.EXPIRATION_TIME
+})
+const chceckAuthTimeout = expirationTime => dispatch => {
+    setTimeout(() => {
+        dispatch( logout() )
+    }, expirationTime * 1000 )
+}
 export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
     dispatch( authStart() )
     const validChars = /^[0-9a-zA-Z]+$/
@@ -32,6 +40,7 @@ export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
             localStorage.setItem('nickname', Nickname)
             localStorage.setItem('password', Password)
             dispatch( loginResponse( response.data, Nickname ))
+            dispatch( chceckAuthTimeout( response.data.expiresIn ))
         })
         .catch( error => {
             dispatch( loginError( error.response.data.error.message ))
