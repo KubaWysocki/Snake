@@ -54,6 +54,6 @@
     color: #b31366;
 }
 @media (min-width: 992px) { 
- .Scoreboard { width: 50vw; }
+ .Scoreboard { width: 50vw; padding: 3% 3%; }
  .modeNavigation { width: 50vw; }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import axios from '../../axiosFirebase'
 
@@ -14,10 +15,9 @@ class Scoreboard extends Component {
         loading: true
     }
     componentDidMount = () => {
-        setTimeout( () => this.refs.flag.classList.remove('show'), 50 )
         this.getScoreboard()
     }
-    componentDidUpdate( prevProps ){
+    componentDidUpdate = ( prevProps ) => {
         if ( this.props.gameMode !== prevProps.gameMode ) this.getScoreboard()
     }
     getScoreboard = () => {
@@ -30,37 +30,29 @@ class Scoreboard extends Component {
         this.props.changeMode( this.props.gameMode, direction )
         this.setState({ loading: true })
     }
-    render() {
-        return (
-            <div className='flag show' ref='flag'>
-                <div className='holder'>
-                    <div className='Scoreboard'>
-                        <div className='scoreList'>
-                        { this.state.loading ? <Spinner/> 
-                            : this.state.scoreboard
-                                .sort((a,b)=>b[1]-a[1])
-                                .map( ( el, i ) =>  <div key={ el[0] } 
-                                                    className={ this.props.userData.userName === el[0] ? 'record userRecord' : 'record'}>
-                                                        <div className='sides'>{i+1+'.'}</div>
-                                                        <div className='nick'>{ el[0] }</div>
-                                                        <div className='sides' >{ el[1] }</div>
-                                                    </div>)
-                        }
-                        </div>
-                    </div>
-                    <div className='modeNavigation'>
-                        <div onClick={() => { this.changeMode('prev') }}></div>
-                        <button className='Button back' 
-                                onClick={() => {
-                                    this.props.exit()
-                                    this.refs.flag.classList.add('hide')
-                                }}> BACK </button>
-                        <div onClick={() => { this.changeMode('next') }}></div>
-                    </div>
+    render = () => (
+        <div className='holder'>
+            <div className='Scoreboard'>
+                <div className='scoreList'>
+                { this.state.loading ? <Spinner/> 
+                    : this.state.scoreboard
+                        .sort((a,b)=>b[1]-a[1])
+                        .map( ( el, i ) =>  <div key={ el[0] } 
+                                            className={ this.props.userData.userName === el[0] ? 'record userRecord' : 'record'}>
+                                                <div className='sides'>{i+1+'.'}</div>
+                                                <div className='nick'>{ el[0] }</div>
+                                                <div className='sides' >{ el[1] }</div>
+                                            </div>)
+                }
                 </div>
             </div>
-        )
-    }
+            <div className='modeNavigation'>
+                <div onClick={() => { this.changeMode('prev') }}></div>
+                <Link to='/settings' className='Button back'> BACK </Link>
+                <div onClick={() => { this.changeMode('next') }}></div>
+            </div>
+        </div>
+    )
 }
 const mapStateToProps = state => ({
     userData: state.auth,

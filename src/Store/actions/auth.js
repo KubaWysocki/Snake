@@ -23,7 +23,7 @@ const chceckAuthTimeout = expirationTime => dispatch => {
         dispatch( logout() )
     }, expirationTime * 1000 )
 }
-export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
+export const login = ({ login:{ Nickname, Password }, path } , router) => dispatch => {
     dispatch( authStart() )
     const validChars = /^[0-9a-zA-Z]+$/
     if ( Nickname.length < 4 ) return dispatch( loginError( 'NICKNAME_TOO_SHORT' ))
@@ -41,6 +41,7 @@ export const login = ({ login:{ Nickname, Password }, path }) => dispatch => {
             localStorage.setItem('password', Password)
             dispatch( loginResponse( response.data, Nickname ))
             dispatch( chceckAuthTimeout( response.data.expiresIn ))
+            router.push('/settings')
         })
         .catch( error => {
             dispatch( loginError( error.response.data.error.message ))

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import axios from '../../axiosFirebase'
@@ -22,16 +23,15 @@ class Board extends Component {
         gameOver: false
     }
     timeoutID = 0;
-    componentDidMount(){
+    componentDidMount = () => {
         this.points();
         if( this.props.border ) this.refs.boardClass.className = 'border'
         setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 500)
-        setTimeout( () => this.refs.flag.classList.remove('show'), 50 )
     }
-    componentDidUpdate(){
+    componentDidUpdate = () => {
         if( this.state.gameOver ) clearTimeout( this.timeoutID )
     }
-    componentWillUnmount(){
+    componentWillUnmount = () => {
         clearTimeout( this.timeoutID )
     }
 
@@ -110,46 +110,40 @@ class Board extends Component {
             })
         }
     }
-    render() {
-        return(
-            <div className='flag show' ref='flag'>
-                <div className='holder'>
-                    <div className='Board'>
-                        <div className='border-less' ref='boardClass'>
-                            { [...Array(this.props.board.width)]
-                                .map(( _, i ) => {
-                                    return(
-                                        <div className='col' key={ i }>
-                                        {
-                                            [...Array(this.props.board.height)]
-                                            .map(( _, j ) => {
-                                                let tileClass = 'tile',
-                                                    cord = i+','+j
-                                                this.state.tailPositions.forEach( el => { if(el === cord) tileClass = 'snake tile'})
-                                                if(this.state.pointPosition === cord) tileClass = 'point tile'
-                                                return <div className={ tileClass } key={ cord }></div>
-                                            })
-                                        }
-                                        </div>
-                                    )
-                                })
-                            }
-                            { this.state.gameOver ? <LoseScreen/> : null }
-                        </div>
-                    </div>
-                    <div className='bottom'>
-                        <span>SCORE: { this.state.snake.snakeLength-2 }</span>
-                        <button className='Button reset'
-                                onClick={() => {
-                                    this.refs.flag.classList.add('hide')
-                                    this.props.reset()
-                        }}>RESET</button>
+    render = () => (
+        <div className='flag'>
+            <div className='holder'>
+                <div className='Board'>
+                    <div className='border-less' ref='boardClass'>
+                        { [...Array(this.props.board.width)]
+                            .map(( _, i ) => {
+                                return(
+                                    <div className='col' key={ i }>
+                                    {
+                                        [...Array(this.props.board.height)]
+                                        .map(( _, j ) => {
+                                            let tileClass = 'tile',
+                                                cord = i+','+j
+                                            this.state.tailPositions.forEach( el => { if(el === cord) tileClass = 'snake tile'})
+                                            if(this.state.pointPosition === cord) tileClass = 'point tile'
+                                            return <div className={ tileClass } key={ cord }></div>
+                                        })
+                                    }
+                                    </div>
+                                )
+                            })
+                        }
+                        { this.state.gameOver ? <LoseScreen/> : null }
                     </div>
                 </div>
-                <Controls controls={ this.controls }/>
+                <div className='bottom'>
+                    <span>SCORE: { this.state.snake.snakeLength-2 }</span>
+                    <Link to='/settings' className='Button reset'>RESET</Link>
+                </div>
             </div>
-        )
-    }
+            <Controls controls={ this.controls }/>
+        </div>
+    )
 }
 const mapStateToProps = state => ({
     acceleration: state.game.acceleration,
@@ -158,4 +152,4 @@ const mapStateToProps = state => ({
     speed: state.game.speed,
     userData: state.auth
 })
-export default connect( mapStateToProps )( Board );
+export default withRouter( connect( mapStateToProps )( Board ) )

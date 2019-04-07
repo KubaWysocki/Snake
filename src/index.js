@@ -21,13 +21,11 @@ const rootReducer = combineReducers({
 const store = createStore( rootReducer, composeEnhancers( applyMiddleware( thunk )))
 
 const app = (
-<Provider store={ store }>
-    <BrowserRouter basename={ process.env.PUBLIC_URL }>
-        <App />
-    </BrowserRouter>
-</Provider>
+    <Provider store={ store }>
+        <BrowserRouter basename={ process.env.PUBLIC_URL }>
+            <App />
+        </BrowserRouter>
+    </Provider>
 )
-
 ReactDOM.render( app, document.getElementById('root'))
-
 serviceWorker.unregister();

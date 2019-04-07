@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Switch, Route, withRouter } from 'react-router-dom'
+import { Route, withRouter, Switch } from 'react-router-dom'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 
 import './App.css'
@@ -11,34 +12,17 @@ import Auth from './Components/Auth/Auth'
 import Scoreboard from './Components/Scoreboard/Scoreboard'
 
 class App extends Component {
-  componentWillMount() {
-    document.addEventListener("touchmove", (e) => e.preventDefault())
-  }
-  componentDidMount() {
-    if ( this.props.location.pathname !== '/' ) this.refs.LogoImage.classList.remove('center')
-  }
-  componentDidUpdate(prevProps) {
+  componentDidMount = () => this.bannerPosition()
+  componentDidUpdate = (prevProps) => {
     if( prevProps.expirationTime !== this.props.expirationTime && this.props.expirationTime === true ) this.props.history.push('/')
+    this.bannerPosition()
   }
-  loginContinue = () => {
-    this.refs.LogoImage.classList.remove('center')
-    setTimeout( () => this.props.history.push('/settings'), 300 )
+  bannerPosition = () => {
+    if ( this.props.location.pathname !== '/' ) this.refs.LogoImage.classList.remove('center')
+    if( this.props.location.pathname === '/game' ) this.refs.LogoImage.classList.add('dock')
+    else this.refs.LogoImage.classList.remove('dock')
   }
-  enterScoreboard = () => {
-    setTimeout( () => this.props.history.push('/scoreboard'), 300 )
-  }
-  exitScoreboard = () => {
-    setTimeout( () => this.props.history.push('/settings'), 300 )
-  }
-  startGame = () => {
-    this.refs.LogoImage.classList.add('dock')
-    setTimeout( () => this.props.history.push('/game'), 300 )
-  }
-  stopGame = () => {
-    this.refs.LogoImage.classList.remove('dock')
-    setTimeout( () => this.props.history.push('/settings'), 300 ) 
-  }  
-  render() {
+  render = () => {
     const gameMode = this.props.gameMode.acceleration
                     +'-'+this.props.gameMode.board.width
                     +'x'+this.props.gameMode.board.height
@@ -49,12 +33,27 @@ class App extends Component {
         <div ref='LogoImage' className='banner center'>
           <img alt='snake' src={ snake }/>
         </div>
-        <Switch>
-          <Route path='/game' render={() => <Board reset={ this.stopGame } gameMode={ gameMode }/>} />
-          <Route path='/scoreboard' render={() => <Scoreboard exit={ this.exitScoreboard } gameMode={ gameMode }/>} />
-          <Route path='/settings' render={() => <Settings startGame={ this.startGame } scoreboard={ this.enterScoreboard }/>} />
-          <Route path='/' exact render={() => <Auth loginContinue={ this.loginContinue }/>} />
-        </Switch>
+        <TransitionGroup>
+          <CSSTransition
+            key={this.props.location.key}
+            classNames={{
+              enter: 'enter',
+              enterActive: 'enterActive',
+              exit: 'exit',
+              exitActive: 'exitActive'
+            }}
+            timeout={{
+              enter: 600,
+              exit: 300
+            }}>
+            <Switch location={this.props.location} >
+                <Route path='/game'       render={() => <Board gameMode={ gameMode }/>} />
+                <Route path='/scoreboard' render={() => <Scoreboard gameMode={ gameMode }/>} />
+                <Route path='/settings'   component={ Settings } />
+                <Route path='/' exact     component={ Auth } />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
       </div>
     )
   }

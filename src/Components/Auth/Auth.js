@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
 import { login } from '../../Store/actions/auth'
 
 import './Auth.css'
@@ -17,52 +18,43 @@ class Auth extends Component {
         },
         path: 'verifyPassword'
     }
-    componentWillMount() {
+    componentWillMount = () => {
         if( localStorage.getItem('nickname') === null ) this.setState({path: 'signupNewUser'})
     }
-    componentDidMount() {
-        setTimeout( () => this.refs.flag.classList.remove('show'), 50)
+    componentDidMount = () => {
         if( localStorage.getItem('nickname') === null ) this.refs.loginMode.classList.toggle('active')
     }
-    componentDidUpdate( prevProps ) {
-        if( this.props.auth ) this.redirect()
-    }
     inputChanged = ( event, key ) => this.setState({ login: {...this.state.login, [key]: event.target.value }})
-    redirect = () => {
-        this.refs.flag.classList.add('hide')
-        this.props.loginContinue()
-    }
+
     changeLoginMode = path => {
         this.setState({ path })
         this.refs.loginMode.classList.toggle('active')
     }
-    render(){
-        return (
-            <div className='flag show' ref='flag'>
-                <div className='Auth'>
-                    <div ref='loginMode' className='toggler'>
-                        <Setting options={{ signin: 'verifyPassword',
-                                            signup: 'signupNewUser' }} 
-                                checkedValue={ this.state.path }
-                                change={ path => this.changeLoginMode(path) }
-                        />
-                    </div>
-                    <Inputs authData={ this.state.login } change={ this.inputChanged }/>
-                    <button onClick={() => this.props.login( this.state )}> LOGIN </button>
-                    <button className='offline' onClick={ this.redirect }> OFFLINE </button>
-                { this.props.loading ? <Spinner/> : null }
-                </div>
-                { this.props.error ? <div className='error'> Something went wrong! <br/>{ this.props.error } </div> : null }
+    render = () => (<>
+        <div className='Auth'>
+            <div ref='loginMode' className='toggler'>
+                <Setting options={{ signin: 'verifyPassword',
+                                    signup: 'signupNewUser' }} 
+                        checkedValue={ this.state.path }
+                        change={ path => this.changeLoginMode(path) }
+                />
             </div>
-        )
-    }
+            <Inputs authData={ this.state.login } change={ this.inputChanged }/>
+
+            <button onClick={() => this.props.login( this.state, this.props.history )}> LOGIN </button>
+            <Link to='/settings' className='offline'> OFFLINE </Link>
+        { this.props.loading ? <Spinner/> : null }
+        </div>
+        { this.props.error ? <div className='error'> Something went wrong! <br/>{ this.props.error } </div> : null }
+    </>)
 }
+
 const mapStateToProps = state => ({
     auth: state.auth.userId,
     error: state.auth.error,
     loading: state.auth.loading
 })
 const mapDispatchToProps = dispatch => ({
-    login: data => dispatch( login( data ))
+    login: ( data, router ) => dispatch( login( data, router ))
 })
-export default connect( mapStateToProps, mapDispatchToProps )( Auth )
+export default withRouter( connect( mapStateToProps, mapDispatchToProps )( Auth ) )
