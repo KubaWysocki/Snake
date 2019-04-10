@@ -8,6 +8,7 @@ html, body {
     font-size: 4vw;
     text-align: center;
     overflow: hidden;
+    -webkit-tap-highlight-color: #00000000;
 }
 #root, .App {
     height: 100%;
