@@ -33,19 +33,12 @@ class App extends Component {
         <div ref='LogoImage' className='banner center'>
           <img alt='snake' src={ snake }/>
         </div>
-        <TransitionGroup>
+        <TransitionGroup component={React.Fragment}>
           <CSSTransition
             key={this.props.location.key}
-            classNames={{
-              enter: 'enter',
-              enterActive: 'enterActive',
-              exit: 'exit',
-              exitActive: 'exitActive'
-            }}
-            timeout={{
-              enter: 600,
-              exit: 300
-            }}>
+            classNames='route'
+            timeout={{   enter: 600,   exit: 300   }}
+            appear>
             <Switch location={this.props.location} >
                 <Route path='/game'       render={() => <Board gameMode={ gameMode }/>} />
                 <Route path='/scoreboard' render={() => <Scoreboard gameMode={ gameMode }/>} />

@@ -12,11 +12,11 @@ const reducer = ( state= initialState, action) => {
     switch( action.type ){
         case actionTypes.START_AUTH:    return { ...state, loading: true }
         case actionTypes.LOGIN_ERROR:   return { ...state, loading: false, error: action.error }
-        case actionTypes.LOGIN_SUCCESS: return { loading: false, 
-                                                 error: null, 
-                                                 token: action.token, 
+        case actionTypes.LOGIN_SUCCESS: return { token: action.token, 
                                                  userId: action.userId, 
                                                  userName: action.userName,
+                                                 error: null, 
+                                                 loading: false, 
                                                  expirationTime: false }
         case actionTypes.EXPIRATION_TIME: return { ...state, expirationTime: true, userId: null, token: null } 
         default: return state

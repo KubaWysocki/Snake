@@ -1,4 +1,5 @@
-html, body{
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Press Start 2P', cursive;
@@ -7,6 +8,9 @@ html, body{
     font-size: 4vw;
     text-align: center;
     overflow: hidden;
+}
+#root, .App {
+    height: 100%;
 }
 a {
     text-decoration: none;
@@ -18,6 +22,18 @@ img{
     margin: 2vw;
     transition: .6s ease;
     width: 60vw;
+}
+.flag{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.holder{
+    top: 9vh;
+    width: 100%;
+    position: absolute;
 }
 .banner{
     transition: .6s ease;
@@ -33,22 +49,22 @@ img{
 .center{
     top: 25%;
 }
-.enter {
+.route-enter, .route-appear {
     transform: scale(1.3) translate3d(0,0,0);
     opacity: 0;
     transition: .3s ease .3s;
 }
-.enterActive {
-    transform: scale(1);
+.route-enter-active, .route-appear-active {
+    transform: scale(1) translate3d(0,0,0);
     opacity: 1;
 }
-.exit {
+.route-exit {
     transform: scale(1) translate3d(0,0,0);
     opacity: 1;
     transition: .3s ease;
 }
-.exitActive {
-    transform: scale(.7);
+.route-exit-active {
+    transform: scale(.7) translate3d(0,0,0);
     opacity: 0;
 }
 @media (min-width: 576px) {  
