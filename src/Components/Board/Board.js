@@ -25,26 +25,21 @@ class Board extends Component {
     timeoutID = 0;
     componentDidMount = () => {
         this.points();
-        if( this.props.border ) this.refs.boardClass.className = 'border'
         setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 500)
     }
-    componentDidUpdate = () => {
-        if( this.state.gameOver ) clearTimeout( this.timeoutID )
-    }
-    componentWillUnmount = () => {
-        clearTimeout( this.timeoutID )
-    }
+    componentDidUpdate = () => this.state.gameOver ? clearTimeout( this.timeoutID ) : null
+    componentWillUnmount = () => clearTimeout( this.timeoutID )
 
     actionFunc = () => {
         this.timeoutID = setTimeout( this.actionFunc, this.state.speed )
-        this.move( this.state.snake )
+        this.move( this.state.snake, this.state.direction )
         this.game( this.state.snake, this.state.tailPositions )
     }
-    move = ({ X, Y, snakeLength }) => {
-        if( this.state.direction === 'n' ) Y--
-        if( this.state.direction === 's' ) Y++
-        if( this.state.direction === 'e' ) X++
-        if( this.state.direction === 'w' ) X--
+    move = ({ X, Y, snakeLength }, direction ) => {
+        if( direction === 'n' ) Y--
+        if( direction === 's' ) Y++
+        if( direction === 'e' ) X++
+        if( direction === 'w' ) X--
     
         if( this.props.border ){
           if( X >= this.props.board.width || X < 0 || Y >= this.props.board.height || Y < 0) this.gameOver()
@@ -55,7 +50,7 @@ class Board extends Component {
             if( X > this.props.board.width-1 ) X=0
             if( Y > this.props.board.height-1 ) Y=0
         }
-        this.setState({ snake:{ X, Y, snakeLength }})
+        this.setState(() => ({ snake:{ X, Y, snakeLength }}))
     }
     game = ({ X, Y, snakeLength }, tailPositions) => {
         window.addEventListener( 'keydown', this.controls )
@@ -64,7 +59,7 @@ class Board extends Component {
         let headPosition = X +','+ Y
         tailPositions.push( headPosition )
         tailPositions = tailPositions.slice( -snakeLength )
-        this.setState({ tailPositions })
+        this.setState(() => ({ tailPositions }))
 
         for( let i=0; i<tailPositions.length-1; i++ ){
             if( headPosition === tailPositions[i] ) this.gameOver()
@@ -72,11 +67,11 @@ class Board extends Component {
 
         if( headPosition === this.state.pointPosition ){
             snakeLength += 1
-            this.setState({ snake: { X, Y, snakeLength }})
+            this.setState(() => ({ snake: { X, Y, snakeLength }}))
             if( this.props.acceleration && this.state.speed>=16 ){
                 let speed = this.state.speed
                 speed -= 2
-                this.setState({ speed })
+                this.setState(() => ({ speed }))
             }
             this.points();
         }
@@ -89,17 +84,17 @@ class Board extends Component {
         if(( e.key==='s'||e.key==='S'||e.key==='ArrowDown'||e==='s' ) && direction!=='n' ) direction = 's'
         if(( e.key==='d'||e.key==='D'||e.key==='ArrowRight'||e==='e' ) && direction!=='w' ) direction = 'e'
         if(( e.key==='a'||e.key==='A'||e.key==='ArrowLeft'||e==='w' ) && direction!=='e' ) direction = 'w'
-        this.setState({ direction })
+        this.setState(() => ({ direction }))
     }
     points = () => {
         let exit = false,
             pointPosition = Math.floor(Math.random()*this.props.board.width) +','+ Math.floor(Math.random()*this.props.board.height)
         this.state.tailPositions.forEach( el => { if( pointPosition === el ) { this.points(); exit = true }})
         if( exit ) return
-        this.setState({ pointPosition })
+        this.setState(() => ({ pointPosition }))
     }
     gameOver = () => {
-        this.setState({gameOver: true})
+        this.setState(() => ({gameOver: true}))
         if( this.props.userData.token ) {
             axios.get(this.props.gameMode + '/' + this.props.userData.userId + '.json?auth=' + this.props.userData.token )
             .then( response => {
@@ -114,7 +109,7 @@ class Board extends Component {
         <div className='flag'>
             <div className='holder'>
                 <div className='Board'>
-                    <div className='border-less' ref='boardClass'>
+                    <div className={ this.props.border ? 'border' : 'border-less' }>
                         { [...Array(this.props.board.width)]
                             .map(( _, i ) => {
                                 return(

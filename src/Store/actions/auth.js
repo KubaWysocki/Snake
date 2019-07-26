@@ -43,7 +43,5 @@ export const login = ({ login:{ Nickname, Password }, path } , router) => dispat
             dispatch( chceckAuthTimeout( response.data.expiresIn ))
             router.push('/settings')
         })
-        .catch( error => {
-            dispatch( loginError( error.response.data.error.message ))
-        })
+        .catch( error => dispatch( loginError( error.response ? error.response.data.error.message : 'CONNECTION LOST' )))
 }
