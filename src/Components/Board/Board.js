@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { throttle } from 'lodash'
 
 import axios from '../../axiosFirebase'
 
@@ -24,7 +25,8 @@ class Board extends Component {
     }
     timeoutID = 0;
     componentDidMount = () => {
-        this.points();
+        window.addEventListener( 'keydown', this.throttledControls )
+        this.points()
         setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 500)
     }
     componentDidUpdate = () => this.state.gameOver ? clearTimeout( this.timeoutID ) : null
@@ -53,7 +55,6 @@ class Board extends Component {
         this.setState(() => ({ snake:{ X, Y, snakeLength }}))
     }
     game = ({ X, Y, snakeLength }, tailPositions) => {
-        window.addEventListener( 'keydown', this.controls )
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'auto' )
 
         let headPosition = X +','+ Y
@@ -73,11 +74,10 @@ class Board extends Component {
                 speed -= 2
                 this.setState(() => ({ speed }))
             }
-            this.points();
+            this.points()
         }
     }
     controls = ( e ) => {
-        window.removeEventListener('keydown', this.controls)
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'none' )
         let direction = this.state.direction
         if(( e.key==='w'||e.key==='W'||e.key==='ArrowUp'||e==='n' ) && direction!=='s' ) direction = 'n'
@@ -86,6 +86,7 @@ class Board extends Component {
         if(( e.key==='a'||e.key==='A'||e.key==='ArrowLeft'||e==='w' ) && direction!=='e' ) direction = 'w'
         this.setState(() => ({ direction }))
     }
+    throttledControls = throttle( this.controls, this.state.speed, { leading: true } )
     points = () => {
         let exit = false,
             pointPosition = Math.floor(Math.random()*this.props.board.width) +','+ Math.floor(Math.random()*this.props.board.height)
@@ -136,7 +137,7 @@ class Board extends Component {
                     <Link to='/settings' className='Button reset'>RESET</Link>
                 </div>
             </div>
-            <Controls controls={ this.controls }/>
+            <Controls controls={ this.throttledControls }/>
         </div>
     )
 }

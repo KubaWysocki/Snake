@@ -3,4 +3,4 @@ import './Spinner.css'
 
 const spinner = () => <div className='loader'></div>
 
-export default spinner;
+export default spinner

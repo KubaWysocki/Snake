@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Setting = ( props ) => {
-    let keys = Object.keys( props.options );
+    let keys = Object.keys( props.options )
     const check = option => JSON.stringify( props.checkedValue ) === JSON.stringify( option )
     return(
         <div>
