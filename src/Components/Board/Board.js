@@ -23,7 +23,7 @@ class Board extends Component {
         direction: 'e',
         gameOver: false
     }
-    timeoutID = 0;
+    timeoutID = 0
     componentDidMount = () => {
         window.addEventListener( 'keydown', this.throttledControls )
         this.points()
