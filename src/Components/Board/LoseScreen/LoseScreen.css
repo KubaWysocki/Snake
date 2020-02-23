@@ -1,4 +1,4 @@
-.shadow{
+.shadow {
     position: absolute;
     top:0;
     bottom: 0;
@@ -9,11 +9,13 @@
     align-items: center;
     background-color: #0000008a;
 }
-.gameOver{
+
+.gameOver {
     padding: 1vw 1vw;
     font-size: 2rem;
     background-color: #c70707;
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 80%;
 }

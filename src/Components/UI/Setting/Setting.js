@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 const Setting = ( props ) => {
     let keys = Object.keys( props.options )
     const check = option => JSON.stringify( props.checkedValue ) === JSON.stringify( option )
-    return(
+    return (
         <div>
             <p>{ props.children }</p>
             { keys.map( el => (
@@ -17,4 +17,5 @@ const Setting = ( props ) => {
         </div>
     )
 }
-export default Setting;
+
+export default Setting

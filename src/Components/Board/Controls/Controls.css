@@ -1,4 +1,4 @@
-.controlPanel{
+.controlPanel {
     width: 37vh;
     height: 37vh;
     position: absolute;
@@ -6,7 +6,8 @@
     left: 50%;
     transform: translateX(-50%);
 }
-.arrow{
+
+.arrow {
     transform: scale(1.15);
     width: calc(100%/3);
     height: calc(100%/3);
@@ -15,32 +16,41 @@
     background-size: 100% 100%;
     transition: 0.1s ease-in;
 }
-.arrow:active{
+
+.arrow:active {
     transform: scale(1);
 }
-.up{
+
+.up {
     transform:  scale(1.15) rotate(90deg);
     margin: 0 calc(100%/3);
 }
-.up:active{
+
+.up:active {
     transform: rotate(90deg) scale(1);
 }
-.right{
+
+.right {
     margin-left: calc(100%/3);
     transform:  scale(1.15) rotate(180deg);
 }
-.right:active{
+
+.right:active {
     transform: rotate(180deg) scale(1);
 }
-.down{
+
+.down {
     transform:  scale(1.15) rotate(-90deg);
 }
-.down:active{
+
+.down:active {
     transform: rotate(-90deg) scale(1);
 }
-@media(max-height: 500px){
+
+@media(max-height: 500px) {
     .controlPanel {width: 33vh; height: 33vh;}
 }
-@media(min-width:1025px){
-    .controlPanel { display: none;}
+
+@media(min-width:1025px) {
+    .controlPanel {display: none;}
 }

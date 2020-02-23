@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 import './LoseScreen.css'
 
-const LoseScreen = () => (
+const LoseScreen = props =>
     <div className='shadow'>
-        <div className='gameOver'>Game <br/> &nbsp; Over!</div>
+        <div className='gameOver'>{ props.highscore || "Wait..." }</div>
     </div>
-)
-export default LoseScreen;
+
+export default LoseScreen

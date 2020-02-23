@@ -1,4 +1,4 @@
-.Button{
+.Button {
     display: block;
     color: inherit;
     font-family: inherit;
@@ -9,14 +9,17 @@
     cursor: pointer;
     transition: .15s ease;
 }
+
 .Button:hover {
     transform: scale(1.05);
 }
+
 .Button a {
     text-decoration: none;
     color: inherit;
 }
-.Settings{
+
+.Settings {
     width: 80vw;
     font-size: 0.8rem;
     position: absolute;
@@ -24,37 +27,45 @@
     left: 50%;
     transform: translate(-50%,-50%);
 }
-.Settings>div{
+
+.Settings>div {
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
 }
-.Settings>div>p{
+
+.Settings>div>p {
     width: 100%;
     margin: 8vw 0 4vw 0;
     flex-shrink: 0;
     font-size: 1rem;
     color: #b31366;
 }
+
 .Settings>div input[type="radio"], 
-.Auth>div input[type="radio"]{
+.Auth>div input[type="radio"] {
     display: none;
 }
+
 .Settings>div input[type="radio"]+label,
-.Auth>div input[type="radio"]+label{
+.Auth>div input[type="radio"]+label {
     transition: .1s ease;
 }
+
 .Settings>div input[type="radio"]:checked+label {
     color: #77bbe9;
     transform: scale(1.1);
 }
+
 .Settings>div input[type="radio"]:hover+label {
     color: #77bbe9;
 }
+
 @media (min-width: 576px) {  
     .Settings {width:70vw}
 }
+
 @media (min-width: 992px) { 
     .Settings {width:60vw}
     .Settings>div>p {width: 50%; margin: 2vw 0;}

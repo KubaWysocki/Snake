@@ -9,13 +9,15 @@
     transform: translate(-50%,-50%);
     line-height: 1.5;
 }
-.toggler{
+
+.toggler {
     margin: 15px auto 10px auto;
     position: relative;
     display: inline-block;
     transition: .3s ease;
 }
-.toggler::before{
+
+.toggler::before {
     content: '';
     position: absolute;
     bottom: -4px;
@@ -25,9 +27,11 @@
     background-color: #b31366;
     transition: .3s ease;
 }
-.toggler.active::before{
+
+.toggler.active::before {
     left: 50%;
 }
+
 .Auth input[type='text'], 
 .Auth input[type='password'] {
     margin: 10px auto;
@@ -43,24 +47,29 @@
     min-width: 210px;
     border-radius: 3px;
 }
+
 .Auth input[type='text']+label, 
 .Auth input[type='password']+label {
     font-size: 0;
     position: absolute;
 }
+
 ::placeholder {
     color: #4b4545;
     opacity: 1; /* Firefox */
 }
-.Auth>div input[type="radio"]+label{
+
+.Auth>div input[type="radio"]+label {
     position: relative;
     display: inline-block;
     margin: 0 5px;
     color: #611139;
 }
+
 .Auth>div input[type="radio"]:checked+label {
     color: #b31366;
 }
+
 .Auth button {
     margin: 30px auto;
     display: block;
@@ -70,19 +79,21 @@
     border: none;
     font-size: 1.5rem;
 }
+
 .offline {
-    color: #611139 !important;
+    color: #611139;
 }
+
 .error {
     position: absolute;
-    width: 100vw;
+    width: 98vw;
     bottom: 5vh;
     line-height: 2;
     font-size: .8rem;
+    text-transform: capitalize;
 }
+
 @media (min-width: 992px) {
     .Auth input[type='text'], 
-    .Auth input[type='password']{
-        width: 250px;
-    }
+    .Auth input[type='password'] {width: 250px;}
 }

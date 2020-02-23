@@ -3,8 +3,6 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { throttle } from 'lodash'
 
-import axios from '../../axiosFirebase'
-
 import './Board.css'
 
 import LoseScreen from './LoseScreen/LoseScreen'
@@ -21,15 +19,20 @@ class Board extends Component {
         tailPositions: ['12,10','13,10'],
         pointPosition: null,
         direction: 'e',
-        gameOver: false
+        gameOver: false,
+        highscoreResponse: null
     }
+
     timeoutID = 0
+
     componentDidMount = () => {
         window.addEventListener( 'keydown', this.throttledControls )
         this.points()
         setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 500)
     }
+
     componentDidUpdate = () => this.state.gameOver ? clearTimeout( this.timeoutID ) : null
+
     componentWillUnmount = () => clearTimeout( this.timeoutID )
 
     actionFunc = () => {
@@ -37,6 +40,7 @@ class Board extends Component {
         this.move( this.state.snake, this.state.direction )
         this.game( this.state.snake, this.state.tailPositions )
     }
+    
     move = ({ X, Y, snakeLength }, direction ) => {
         if( direction === 'n' ) Y--
         if( direction === 's' ) Y++
@@ -54,6 +58,7 @@ class Board extends Component {
         }
         this.setState(() => ({ snake:{ X, Y, snakeLength }}))
     }
+    
     game = ({ X, Y, snakeLength }, tailPositions) => {
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'auto' )
 
@@ -77,6 +82,7 @@ class Board extends Component {
             this.points()
         }
     }
+    
     controls = ( e ) => {
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'none' )
         let direction = this.state.direction
@@ -86,7 +92,9 @@ class Board extends Component {
         if(( e.key==='a'||e.key==='A'||e.key==='ArrowLeft'||e==='w' ) && direction!=='e' ) direction = 'w'
         this.setState(() => ({ direction }))
     }
+    
     throttledControls = throttle( this.controls, this.state.speed, { leading: true } )
+    
     points = () => {
         let exit = false,
             pointPosition = Math.floor(Math.random()*this.props.board.width) +','+ Math.floor(Math.random()*this.props.board.height)
@@ -94,19 +102,25 @@ class Board extends Component {
         if( exit ) return
         this.setState(() => ({ pointPosition }))
     }
+    
     gameOver = () => {
         this.setState(() => ({gameOver: true}))
-        if( this.props.userData.token ) {
-            axios.get(this.props.gameMode + '/' + this.props.userData.userId + '.json?auth=' + this.props.userData.token )
-            .then( response => {
-                if ( response.data === null || response.data[1] < this.state.snake.snakeLength-2 ) {
-                    axios.put(this.props.gameMode + '/' + this.props.userData.userId + '.json?auth=' + this.props.userData.token, 
-                            [this.props.userData.userName, this.state.snake.snakeLength-2])
-                }
+        if( this.props.auth.access ) {
+            fetch( 'http://127.0.0.1:8000/api/scores', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.props.auth.access}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ score: this.state.snake.snakeLength-2, ...this.props.gameMode })
             })
+            .then( res => res.json() )
+            .then( res => this.setState({ highscoreResponse: res }))
+            .catch( err => console.log( err ))
         }
     }
-    render = () => (
+    
+    render = () =>
         <div className='flag'>
             <div className='holder'>
                 <div className='Board'>
@@ -129,7 +143,7 @@ class Board extends Component {
                                 )
                             })
                         }
-                        { this.state.gameOver ? <LoseScreen/> : null }
+                        { this.state.gameOver ? <LoseScreen highscore={this.state.highscoreResponse}/> : null }
                     </div>
                 </div>
                 <div className='bottom'>
@@ -139,13 +153,14 @@ class Board extends Component {
             </div>
             <Controls controls={ this.throttledControls }/>
         </div>
-    )
 }
+
 const mapStateToProps = state => ({
     acceleration: state.game.acceleration,
     board: state.game.board,
     border: state.game.border,
     speed: state.game.speed,
-    userData: state.auth
+    auth: state.auth
 })
+
 export default withRouter( connect( mapStateToProps )( Board ) )

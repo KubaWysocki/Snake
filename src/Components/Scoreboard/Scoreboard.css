@@ -8,32 +8,40 @@
     background-size: 100% 100%;
     line-height: 1.5;
 }
-.scoreList{
+
+.scoreList {
     overflow: scroll;
     width: 100%;
     height: 100%;
 }
+
 .scoreList::-webkit-scrollbar {
     display: none;
 }
+
 .record {
     display: flex;
 }
+
 .userRecord {
     color: #77bbe9;
 }
+
 .record .sides {
     width: 15%;
 }
+
 .record .nick {
     width: 70%;
 }
-.modeNavigation{
+
+.modeNavigation {
     display: flex;
     justify-content: space-between;
     width: 90vw;
     margin: 0 auto;
 }
+
 .modeNavigation div {
     background-image: url(../../assets//arrow.png);
     width: 8vh;
@@ -42,20 +50,25 @@
     background-size: contain;
     transition: .1s ease;
 }
+
 .modeNavigation div:nth-child(3) {
     transform: rotate(180deg)
 }
-.modeNavigation div:active{
+
+.modeNavigation div:active {
     transform: scale(.9)
 }
+
 .modeNavigation div:nth-child(3):active {
     transform: rotate(180deg) scale(.9)
 }
+
 .back {
     margin: 1vh auto;
     color: #b31366;
 }
+
 @media (min-width: 992px) { 
- .Scoreboard { width: 50vw; padding: 3% 3%; }
- .modeNavigation { width: 50vw; }
+    .Scoreboard {width: 50vw; padding: 3% 3%;}
+    .modeNavigation {width: 50vw;}
 }

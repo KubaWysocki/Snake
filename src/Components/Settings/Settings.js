@@ -7,8 +7,8 @@ import './Settings.css'
 import Setting from '../UI/Setting/Setting'
 import * as actionTypes from '../../Store/actions/actionTypes'
 
-class Settings extends Component{
-    render = () => (
+class Settings extends Component {
+    render = () =>
         <div className='flag'>
             <div className='Settings'>
                 <Setting options={{ small: { width: 20, height: 15 },
@@ -41,16 +41,18 @@ class Settings extends Component{
                 }
             </div>
         </div>
-    )
 }
+
 const mapStateToProps = state => ({
-        acceleration: state.game.acceleration,
-        board: state.game.board,
-        border: state.game.border,
-        speed: state.game.speed,
-        auth: state.auth.token
+    acceleration: state.game.acceleration,
+    board: state.game.board,
+    border: state.game.border,
+    speed: state.game.speed,
+    auth: state.auth.access
 })
+
 const mapDispatchToProps = dispatch => ({
     setSetting: ( setting, value ) => dispatch({ type: actionTypes.SET_SETTING, setting, value })
 })
+
 export default withRouter( connect( mapStateToProps, mapDispatchToProps )( Settings ) )

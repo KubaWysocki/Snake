@@ -12,25 +12,27 @@ import Spinner from '../UI/Spinner/Spinner'
 
 class Auth extends Component {
     state = {
-        login: {
-            Nickname: localStorage.getItem('nickname'),
-            Password: localStorage.getItem('password'),
+        auth: {
+            username: this.props.auth || '',
+            password: '',
         },
-        path: 'verifyPassword'
+        path: !this.props.auth ? 'signupNewUser' : 'verifyPassword'
     }
-    componentWillMount = () => {
-        if( localStorage.getItem('nickname') === null ) this.setState({path: 'signupNewUser'})
-    }
+
     componentDidMount = () => {
-        if( localStorage.getItem('nickname') === null ) this.refs.loginMode.classList.toggle('active')
+        if( !this.props.auth ) this.refs.loginMode.classList.toggle('active')
     }
-    inputChanged = ( event, key ) => this.setState({ login: {...this.state.login, [key]: event.target.value }})
+
+    inputChanged = ( event, key ) => this.setState({ auth: {...this.state.auth, [key]: event.target.value }})
 
     changeLoginMode = path => {
         this.setState({ path })
         this.refs.loginMode.classList.toggle('active')
     }
-    render = () => (
+
+    login = () => this.props.login( this.state, this.props.history )
+
+    render = () =>
         <div className='flag'>
             <div className='Auth'>
                 <div ref='loginMode' className='toggler'>
@@ -40,22 +42,24 @@ class Auth extends Component {
                             change={ path => this.changeLoginMode(path) }
                     />
                 </div>
-                <Inputs authData={ this.state.login } change={ this.inputChanged }/>
+                <Inputs authData={ this.state.auth } change={ this.inputChanged } login={ this.login }/>
 
-                <button onClick={() => this.props.login( this.state, this.props.history )}> LOGIN </button>
+                <button onClick={ this.login }> LOGIN </button>
                 <Link to='/settings' className='offline'> OFFLINE </Link>
             { this.props.loading ? <Spinner/> : null }
             </div>
             { this.props.error ? <div className='error'> Something went wrong! <br/>{ this.props.error } </div> : null }
-        </div>)
+        </div>
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth.userId,
+    auth: state.auth.username,
     error: state.auth.error,
     loading: state.auth.loading
 })
+
 const mapDispatchToProps = dispatch => ({
     login: ( data, router ) => dispatch( login( data, router ))
 })
+
 export default withRouter( connect( mapStateToProps, mapDispatchToProps )( Auth ) )

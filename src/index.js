@@ -10,7 +10,7 @@ import thunk from 'redux-thunk'
 import gameReducer from './Store/reducers/gameReducer'
 import authReducer from './Store/reducers/authReducer'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const rootReducer = combineReducers({
     game: gameReducer,
