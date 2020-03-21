@@ -84,3 +84,24 @@
     .col {width: 1.2vw}
     .bottom {width: 40%}
 }
+
+@media (min-width: 2560px) {
+    .Board {margin-top: 3vh;}
+    .tile {height: .9vw}
+    .col {width: .9vw}
+}
+
+@media (min-width: 2560px) and (min-height: 1440px) {
+    .tile {height: 1.2vw}
+    .col {width: 1.2vw}
+}
+
+@media (min-width: 3440px) {
+    .tile {height: .9vw}
+    .col {width: .9vw}
+}
+
+@media (min-width: 4096px) {
+    .tile {height: 1.2vw}
+    .col {width: 1.2vw}
+}

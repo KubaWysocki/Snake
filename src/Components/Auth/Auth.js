@@ -13,14 +13,14 @@ import Spinner from '../UI/Spinner/Spinner'
 class Auth extends Component {
     state = {
         auth: {
-            username: this.props.auth || '',
+            username: this.props.username || '',
             password: '',
         },
-        path: !this.props.auth ? 'signupNewUser' : 'verifyPassword'
+        path: !this.props.username ? 'signupNewUser' : 'verifyPassword'
     }
 
     componentDidMount = () => {
-        if( !this.props.auth ) this.refs.loginMode.classList.toggle('active')
+        if( !this.props.username ) this.refs.loginMode.classList.toggle('active')
     }
 
     inputChanged = ( event, key ) => this.setState({ auth: {...this.state.auth, [key]: event.target.value }})
@@ -53,13 +53,11 @@ class Auth extends Component {
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth.username,
+    username: state.auth.username,
     error: state.auth.error,
     loading: state.auth.loading
 })
 
-const mapDispatchToProps = dispatch => ({
-    login: ( data, router ) => dispatch( login( data, router ))
-})
+const mapDispatchToProps = { login }
 
 export default withRouter( connect( mapStateToProps, mapDispatchToProps )( Auth ) )

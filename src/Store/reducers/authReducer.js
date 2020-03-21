@@ -5,14 +5,17 @@ const initialState = {
     refresh: localStorage.getItem('refresh'),
     username: localStorage.getItem('username'),
     error: null,
-    loading: false
+    loading: false,
+    autoLoginLoading: true
 }
 
 const reducer = ( state = initialState, action ) => {
     switch( action.type ){
         case actionTypes.START_AUTH:            return { ...state, loading: true }
+        case actionTypes.LOGOUT:                return { ...state, access: null, refresh: null }
+        case actionTypes.AUTO_LOGIN_FAIL:       return { ...state, autoLoginLoading: false }
+        case actionTypes.AUTO_LOGIN_RESPONSE:   return { ...state, autoLoginLoading: false, access: action.access }
         case actionTypes.LOGIN_ERROR:           return { ...state, loading: false, error: action.error }
-        case actionTypes.AUTO_LOGIN_RESPONSE:   return { ...state, access: action.access }
         case actionTypes.LOGIN_SUCCESS:         return { access: action.access,
                                                         refresh: action.refresh, 
                                                         username: action.username,

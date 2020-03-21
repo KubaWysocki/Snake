@@ -2,7 +2,7 @@ import * as actions from '../actions/actionTypes'
 
 const initialState = {
     acceleration: false,
-    board: { width: 30, height: 23 },
+    board: '30x23',
     border: false,
     speed: 160
 }

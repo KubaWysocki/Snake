@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { isEqual } from 'lodash'
 
 import { changeMode } from '../../Store/actions/game'
 
@@ -10,25 +11,18 @@ import Spinner from '../UI/Spinner/Spinner'
 
 class Scoreboard extends Component {
     state = {
+        activeGameMode: -1,
         scoreboard: [],
         allScoreboards: [],
         loading: true
     }
 
     componentDidMount = () => {
-        if( this.props.auth.access ) {
-            this.getScoreboard()
-            this.getAllScoreboards()
-        }
+        this.getAllScoreboards()
     }
     
-    componentDidUpdate = ( prevProps ) => {
-        if ( this.props.access && this.props.gameMode !== prevProps.gameMode ) this.getScoreboard()
-    }
-    
-    getScoreboard = () => {
-        const queryParams = Object.entries(this.props.gameMode).map(e => e.join('=')).join('&')
-        fetch( 'http://127.0.0.1:8000/api/scores?' + queryParams, {
+    getScoreboard = activeGameMode =>
+        fetch( 'http://127.0.0.1:8000/api/scores?id=' + this.state.allScoreboards[activeGameMode].id, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${this.props.auth.access}`,
@@ -36,10 +30,9 @@ class Scoreboard extends Component {
             }
         })
         .then( res => res.json() )
-        .then( res => this.setState({ scoreboard: res, loading: false }) )
-    }
+        .then( res => this.setState({ scoreboard: res, loading: false, activeGameMode }) )
     
-    getAllScoreboards = () => {
+    getAllScoreboards = () =>
         fetch( 'http://127.0.0.1:8000/api/gamemodes', {
             method: 'GET',
             headers: {
@@ -48,48 +41,67 @@ class Scoreboard extends Component {
             }
         })
         .then( res => res.json() )
-        .then( allScoreboards => this.setState({ allScoreboards }))
-    }
+        .then( allScoreboards => {
+            allScoreboards = allScoreboards.map(({ id, ...gameMode }) => ({ id, gameMode }))
+            this.setState(() => ({ allScoreboards }))
+            let activeGameMode = -1
+            allScoreboards.forEach(( scoreboard, i ) =>
+                isEqual( scoreboard.gameMode, this.props.gameMode ) ? activeGameMode = i : null
+            )
+            if( activeGameMode === -1 ) this.setState({ loading: false })
+            else this.getScoreboard( activeGameMode )
+        })
     
     changeMode = direction => {
-        if( this.state.allScoreboards.length ) {
+        const gameModesRange = this.state.allScoreboards.length - 1
+        if( gameModesRange > 0 ) {
             this.setState({ loading: true })
-            this.props.changeMode( direction, this.props.gameMode, this.state.allScoreboards )
+            let nextGameMode  = this.state.activeGameMode + direction
+            if( nextGameMode < 0 ) nextGameMode = gameModesRange
+            if( nextGameMode > gameModesRange ) nextGameMode = 0
+            this.getScoreboard( nextGameMode )
+            this.props.changeMode( this.state.allScoreboards[nextGameMode].gameMode )
         }
     }
     
     render = () => 
         <div className='holder'>
             <div className='Scoreboard'>
+                <p>{ 
+                    !this.state.loading 
+                    && this.state.activeGameMode !== -1 
+                    && '#' + this.state.allScoreboards[this.state.activeGameMode].id 
+                }</p>
                 <div className='scoreList'>
-                { this.state.loading 
-                    ? <Spinner/> 
-                    : typeof this.state.scoreboard === 'string'
-                        ? this.state.scoreboard.split(';').map( el => <div key={el}>{ el }</div>)
-                        : this.state.scoreboard.map( ( record, i ) =>
+                { this.state.loading
+                    ? <Spinner/>
+                    : this.state.activeGameMode === -1
+                        ? <>
+                            <div>Scoreboard does not exist yet!</div>
+                            <div>Play game in this mode to create scoreboard!</div>
+                          </>
+                        : this.state.scoreboard.map(( record, i ) =>
                             <div key={ record.user }
                             className={ this.props.auth.username === record.user ? 'record userRecord' : 'record'}>
                                 <div className='sides'>{i+1+'.'}</div>
                                 <div className='nick'>{ record.user }</div>
                                 <div className='sides'>{ record.score }</div>
                             </div>)
-                }
-                </div>
+                }</div>
             </div>
             <div className='modeNavigation'>
-                <div onClick={() => { this.changeMode('prev') }}></div>
-                <Link to='/settings' className='Button back'> BACK </Link>
-                <div onClick={() => { this.changeMode('next') }}></div>
+                <div onClick={() => this.changeMode(-1) }></div>
+                <Link to='/settings' className='Button back'>GAME MODES</Link>
+                <div onClick={() => this.changeMode(1) }></div>
             </div>
         </div>
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    gameMode: state.game
 })
 
-const mapDispatchToProps = dispatch => ({
-    changeMode: (  direction, oldGameMode, allScoreboards  ) => dispatch( changeMode( direction, oldGameMode, allScoreboards ))
-})
+const mapDispatchToProps = { changeMode }
 
 export default connect( mapStateToProps, mapDispatchToProps )( Scoreboard )

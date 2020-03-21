@@ -1,8 +1,10 @@
 //AUTH
 export const START_AUTH = 'START_AUTH'
+export const LOGOUT = 'LOGOUT'
+export const AUTO_LOGIN_FAIL = 'AUTO_LOGIN_FAIL'
 export const AUTO_LOGIN_RESPONSE = 'AUTO_LOGIN_RESPONSE'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 //GAME
 export const SET_SETTING = 'SET_SETTING'
 export const CHANGE_MODE = 'CHANGE_MODE'

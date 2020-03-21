@@ -1,0 +1,25 @@
+.TopBar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.TopBar > div {
+    margin: .7em;
+    font-size: 75%;
+}
+
+.TopBar span {
+    cursor: pointer;
+}
+
+.login {
+    color: #77bbe9
+}
+
+@media (min-width: 1280px) {
+    .TopBar {width: 70%;}
+} 

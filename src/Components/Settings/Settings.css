@@ -5,7 +5,7 @@
     background: none;
     border: none;
     font-size: 1.7rem;
-    margin: 10vw auto 0 auto;
+    margin: 5vh auto 0 auto;
     cursor: pointer;
     transition: .15s ease;
 }
@@ -26,6 +26,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    padding-top: 10vh;
 }
 
 .Settings>div {
@@ -66,8 +67,18 @@
     .Settings {width:70vw}
 }
 
-@media (min-width: 992px) { 
-    .Settings {width:60vw}
+@media (min-width: 1080px) {
+    .Settings {width: 50%; height: 75%; padding-top: 3vh;}
+}
+
+@media (min-width: 1280px) {
+    .Settings {padding-top: 10vh;}
     .Settings>div>p {width: 50%; margin: 2vw 0;}
-    .startButton {margin-top: 5vw;}
+    .startButton {margin-top: 4vh;}
+}
+
+@media (min-width: 2560px) {
+    .Settings {padding-top: 15vh;}
+    .Button {margin: 2.5vh;}
+    .startButton {margin-top: 0;}
 }

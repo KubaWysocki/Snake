@@ -2,7 +2,7 @@
     width: 37vh;
     height: 37vh;
     position: absolute;
-    bottom: 2vh;
+    bottom: 1vh;
     left: 50%;
     transform: translateX(-50%);
 }

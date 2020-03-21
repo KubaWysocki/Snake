@@ -16,6 +16,10 @@ const autoLoginResponse = access => ({
     access
 })
 
+const autoLoginFail = () => ({
+    type: actionTypes.AUTO_LOGIN_FAIL
+})
+
 const loginError = error => ({
     type: actionTypes.LOGIN_ERROR,
     error
@@ -25,6 +29,12 @@ const loginRefresh = () => dispatch => {
     setTimeout(() => {
         dispatch( autoLogin() )
     }, 104400000 )
+}
+
+export const logout = router => {
+    router.replace('/auth')
+    localStorage.removeItem('refresh')
+    return { type: actionTypes.LOGOUT }
 }
 
 const verify = ( auth, jsonData, router ) => dispatch => {
@@ -79,8 +89,14 @@ export const login = ({ auth, path }, router) => dispatch => {
 }
 
 export const autoLogin = router => dispatch => {
+    if( router.location ) var enteredPath = router.location.pathname
+    router.replace('/')
+    
     const refresh = localStorage.getItem('refresh')
-    if( !refresh && router ) router.replace('/auth')
+    if( !refresh && router ) {
+        dispatch( autoLoginFail())
+        router.replace('/auth')
+    }
     else {
         fetch( 'http://127.0.0.1:8000/api/token/refresh/', {
             method: 'POST',
@@ -91,12 +107,21 @@ export const autoLogin = router => dispatch => {
         })
         .then( res => res.json() )
         .then( res => {
-            if( res.code === 'token_not_valid' && router ) router.replace('/auth')
+            if( res.code === 'token_not_valid' && router ) {
+                dispatch( autoLoginFail())
+                router.replace('/auth')
+            }
             else if( res.access ) {
                 dispatch( autoLoginResponse( res.access ))
                 dispatch( loginRefresh() )
-                if( router ) router.replace('/settings')
+                const redirectToSettings = enteredPath === '/' || enteredPath === '/game' || enteredPath === '/auth'
+                if( router.location && redirectToSettings ) router.replace('/settings')
+                else router.replace( enteredPath )
             }
+        })
+        .catch(() => {
+            dispatch( autoLoginFail())
+            router.replace('/auth')
         })
     }
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { throttle } from 'lodash'
 
 import './Board.css'
 
@@ -9,8 +8,19 @@ import LoseScreen from './LoseScreen/LoseScreen'
 import Controls from './Controls/Controls'
 
 class Board extends Component {
+    constructor( props ) {
+        super( props )
+        const [ width, height ] = props.gameMode.board.split('x').map( i => Number(i) )
+        this.board = { width, height }
+        this.speed = props.gameMode.speed
+        this.acceleration = props.gameMode.acceleration
+        this.border = props.gameMode.border
+        this.timeoutID = 0
+        this.controlsLock = false
+        this.direction = 'e'
+    }
+
     state = {
-        speed: this.props.speed,
         snake: {
             X: 13,
             Y: 10,
@@ -18,17 +28,14 @@ class Board extends Component {
         },
         tailPositions: ['12,10','13,10'],
         pointPosition: null,
-        direction: 'e',
         gameOver: false,
         highscoreResponse: null
     }
 
-    timeoutID = 0
-
     componentDidMount = () => {
-        window.addEventListener( 'keydown', this.throttledControls )
+        window.addEventListener( 'keydown', this.controls )
         this.points()
-        setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.state.speed ), 500)
+        setTimeout( () => this.timeoutID = setTimeout( this.actionFunc, this.speed ), 500)
     }
 
     componentDidUpdate = () => this.state.gameOver ? clearTimeout( this.timeoutID ) : null
@@ -36,9 +43,10 @@ class Board extends Component {
     componentWillUnmount = () => clearTimeout( this.timeoutID )
 
     actionFunc = () => {
-        this.timeoutID = setTimeout( this.actionFunc, this.state.speed )
-        this.move( this.state.snake, this.state.direction )
+        this.timeoutID = setTimeout( this.actionFunc, this.speed )
+        this.move( this.state.snake, this.direction )
         this.game( this.state.snake, this.state.tailPositions )
+        this.controlsLock = false
     }
     
     move = ({ X, Y, snakeLength }, direction ) => {
@@ -47,14 +55,13 @@ class Board extends Component {
         if( direction === 'e' ) X++
         if( direction === 'w' ) X--
     
-        if( this.props.border ){
-          if( X >= this.props.board.width || X < 0 || Y >= this.props.board.height || Y < 0) this.gameOver()
-        }
+        if( this.border && (X >= this.board.width || X < 0 || Y >= this.board.height || Y < 0))
+            this.gameOver()
         else{
-            if( X < 0 ) X=this.props.board.width-1
-            if( Y < 0 ) Y=this.props.board.height-1
-            if( X > this.props.board.width-1 ) X=0
-            if( Y > this.props.board.height-1 ) Y=0
+            if( X < 0 ) X=this.board.width-1
+            if( Y < 0 ) Y=this.board.height-1
+            if( X > this.board.width-1 ) X=0
+            if( Y > this.board.height-1 ) Y=0
         }
         this.setState(() => ({ snake:{ X, Y, snakeLength }}))
     }
@@ -74,30 +81,24 @@ class Board extends Component {
         if( headPosition === this.state.pointPosition ){
             snakeLength += 1
             this.setState(() => ({ snake: { X, Y, snakeLength }}))
-            if( this.props.acceleration && this.state.speed>=16 ){
-                let speed = this.state.speed
-                speed -= 2
-                this.setState(() => ({ speed }))
-            }
+            if( this.acceleration && this.speed>=16 ) this.speed -= 2
             this.points()
         }
     }
     
     controls = ( e ) => {
+        if( this.controlsLock ) return
+        this.controlsLock = true
         document.querySelectorAll('.arrow').forEach( el => el.style.pointerEvents = 'none' )
-        let direction = this.state.direction
-        if(( e.key==='w'||e.key==='W'||e.key==='ArrowUp'||e==='n' ) && direction!=='s' ) direction = 'n'
-        if(( e.key==='s'||e.key==='S'||e.key==='ArrowDown'||e==='s' ) && direction!=='n' ) direction = 's'
-        if(( e.key==='d'||e.key==='D'||e.key==='ArrowRight'||e==='e' ) && direction!=='w' ) direction = 'e'
-        if(( e.key==='a'||e.key==='A'||e.key==='ArrowLeft'||e==='w' ) && direction!=='e' ) direction = 'w'
-        this.setState(() => ({ direction }))
+        if(( e.key==='w'||e.key==='W'||e.key==='ArrowUp'||e==='n' ) && this.direction!=='s' ) this.direction = 'n'
+        if(( e.key==='s'||e.key==='S'||e.key==='ArrowDown'||e==='s' ) && this.direction!=='n' ) this.direction = 's'
+        if(( e.key==='d'||e.key==='D'||e.key==='ArrowRight'||e==='e' ) && this.direction!=='w' ) this.direction = 'e'
+        if(( e.key==='a'||e.key==='A'||e.key==='ArrowLeft'||e==='w' ) && this.direction!=='e' ) this.direction = 'w'
     }
-    
-    throttledControls = throttle( this.controls, this.state.speed, { leading: true } )
     
     points = () => {
         let exit = false,
-            pointPosition = Math.floor(Math.random()*this.props.board.width) +','+ Math.floor(Math.random()*this.props.board.height)
+            pointPosition = Math.floor(Math.random()*this.board.width) +','+ Math.floor(Math.random()*this.board.height)
         this.state.tailPositions.forEach( el => { if( pointPosition === el ) { this.points(); exit = true }})
         if( exit ) return
         this.setState(() => ({ pointPosition }))
@@ -124,26 +125,22 @@ class Board extends Component {
         <div className='flag'>
             <div className='holder'>
                 <div className='Board'>
-                    <div className={ this.props.border ? 'border' : 'border-less' }>
-                        { [...Array(this.props.board.width)]
-                            .map(( _, i ) => {
-                                return(
-                                    <div className='col' key={ i }>
-                                    {
-                                        [...Array(this.props.board.height)]
-                                        .map(( _, j ) => {
-                                            let tileClass = 'tile',
-                                                cord = i+','+j
-                                            this.state.tailPositions.forEach( el => { if(el === cord) tileClass = 'snake tile'})
-                                            if(this.state.pointPosition === cord) tileClass = 'point tile'
-                                            return <div className={ tileClass } key={ cord }></div>
-                                        })
-                                    }
-                                    </div>
-                                )
-                            })
+                    <div className={ this.border ? 'border' : 'border-less' }>
+                        { [...Array(this.board.width)]
+                            .map(( _, i ) =>
+                                <div className='col' key={ i }>
+                                {[...Array(this.board.height)]
+                                    .map(( _, j ) => {
+                                        let tileClass = 'tile',
+                                            cord = i+','+j
+                                        this.state.tailPositions.forEach( el => { if( el === cord ) tileClass = 'snake tile' })
+                                        if(this.state.pointPosition === cord) tileClass = 'point tile'
+                                        return <div className={ tileClass } key={ cord }></div>
+                                    })
+                                }</div>
+                            )
                         }
-                        { this.state.gameOver ? <LoseScreen highscore={this.state.highscoreResponse}/> : null }
+                        { this.state.gameOver ? <LoseScreen highscore={this.state.highscoreResponse} auth={this.props.auth.access}/> : null }
                     </div>
                 </div>
                 <div className='bottom'>
@@ -151,15 +148,12 @@ class Board extends Component {
                     <Link to='/settings' className='Button reset'>RESET</Link>
                 </div>
             </div>
-            <Controls controls={ this.throttledControls }/>
+            <Controls controls={ this.controls }/>
         </div>
 }
 
 const mapStateToProps = state => ({
-    acceleration: state.game.acceleration,
-    board: state.game.board,
-    border: state.game.border,
-    speed: state.game.speed,
+    gameMode: state.game, 
     auth: state.auth
 })
 

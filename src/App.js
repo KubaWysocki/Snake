@@ -7,7 +7,11 @@ import './App.css'
 import snake from './assets/snake.png'
 
 import { autoLogin } from './Store/actions/auth'
+import { changeMode } from './Store/actions/game'
 
+import { querryStringToGameMode } from './utils/querryString'
+
+import TopBar from './Components/UI/TopBar/TopBar'
 import Settings from './Components/Settings/Settings'
 import Board from './Components/Board/Board'
 import Auth from './Components/Auth/Auth'
@@ -17,6 +21,8 @@ import Spinner from './Components/UI/Spinner/Spinner'
 class App extends Component {
   componentDidMount = () => {
     this.bannerPosition()
+    const searchParams = window.location.search
+    if( searchParams ) this.props.changeMode( querryStringToGameMode( searchParams ))
     this.props.autoLogin( this.props.history )
   }
 
@@ -28,46 +34,37 @@ class App extends Component {
     else this.refs.LogoImage.classList.remove('dock')
   }
 
-  render = () => {
-    const gameMode = {
-      ...this.props.gameMode,
-      board: this.props.gameMode.board.width + 'x' + this.props.gameMode.board.height
-    }
-
-    return (
-      <div className='App'>
-        <div ref='LogoImage' className='banner center'>
-          <h1>
-            <img alt='snake' src={ snake }/>
-          </h1>
-        </div>
-        <TransitionGroup component={ React.Fragment }>
+  render = () => 
+    <>
+      { this.props.location.pathname !== '/auth' && <TopBar auth={this.props.auth} /> }
+      <div ref='LogoImage' className='banner center'>
+        <h1>
+          <img alt='snake' src={ snake }/>
+        </h1>
+      </div>
+      { this.props.autoLoginLoading 
+      ? <Spinner/>
+      : <TransitionGroup component={ React.Fragment }>
           <CSSTransition
             key={ this.props.location.key }
             classNames='route'
-            timeout={{ enter: 600,   exit: 300 }}
-            appear>
+            timeout={{ enter: 600,   exit: 300 }}>
             <Switch location={ this.props.location }>
-                <Route path='/game'       render={() => <Board gameMode={ gameMode }/>} />
-                <Route path='/scoreboard' render={() => <Scoreboard gameMode={ gameMode }/>} />
-                <Route path='/settings' component={ Settings } />
-                <Route path='/auth'     component={ Auth } />
-                <Route path='/'  exact  component={ Spinner } />
+                <Route path='/game'       component={ Board } />
+                <Route path='/scoreboard' component={ Scoreboard } />
+                <Route path='/settings'   component={ Settings } />
+                <Route path='/auth'       component={ Auth } />
             </Switch>
           </CSSTransition>
         </TransitionGroup>
-      </div>
-    )
-  }
+      }
+    </>
 }
 
-const mapDispatchToProps = dispatch => ({
-  autoLogin: router => dispatch( autoLogin( router ))
+const mapStateToProps = state => ({
+  autoLoginLoading: state.auth.autoLoginLoading
 })
 
-const mapStateToProps = state => ({
-  gameMode: state.game,
-  auth: state.auth
-})
+const mapDispatchToProps = { autoLogin, changeMode }
 
 export default withRouter( connect( mapStateToProps, mapDispatchToProps )( App ))

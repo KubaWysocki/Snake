@@ -5,15 +5,15 @@ import { Link, withRouter } from 'react-router-dom'
 import './Settings.css'
 
 import Setting from '../UI/Setting/Setting'
-import * as actionTypes from '../../Store/actions/actionTypes'
+import { setSetting } from '../../Store/actions/game'
 
 class Settings extends Component {
     render = () =>
         <div className='flag'>
             <div className='Settings'>
-                <Setting options={{ small: { width: 20, height: 15 },
-                                    medium: { width: 30, height: 23 },
-                                    large: { width: 40, height: 30 } }}
+                <Setting options={{ small: '20x15',
+                                    medium: '30x23',
+                                    large: '40x30' }}
                             checkedValue={ this.props.board }
                             change={ value  => this.props.setSetting( 'board', value )}
                 > PICK BOARD SIZE: </Setting>
@@ -33,7 +33,7 @@ class Settings extends Component {
                             checkedValue={ this.props.speed }
                             change={ value  => this.props.setSetting( 'speed', value )}
                 > CHOOSE SPEED: </Setting>
-                <br/><br/><br/>
+                <br/><br/>
                 <Link to='/game' className='Button startButton' > START </Link>
                 { this.props.auth ?
                     <Link to='/scoreboard' className='Button startButton'> SCOREBOARD </Link>
@@ -51,8 +51,6 @@ const mapStateToProps = state => ({
     auth: state.auth.access
 })
 
-const mapDispatchToProps = dispatch => ({
-    setSetting: ( setting, value ) => dispatch({ type: actionTypes.SET_SETTING, setting, value })
-})
+const mapDispatchToProps = { setSetting }
 
 export default withRouter( connect( mapStateToProps, mapDispatchToProps )( Settings ) )
