@@ -3,20 +3,11 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import { logout } from '../../../Store/actions/auth'
-import { gameModeToQueryString } from '../../../utils/querryString'
 
 import './TopBar.css'
 
 const TopBar = props => 
     <div className='TopBar'>
-        <div>
-            { props.auth.access && 
-                <span onClick={() => 
-                    navigator.clipboard.writeText(
-                        window.location.href + '?' + gameModeToQueryString( props.gameMode )
-                )}>SHARE</span>
-            }
-        </div>
         <div>{
             props.auth.access 
             ? <>

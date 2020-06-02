@@ -90,9 +90,9 @@ class Scoreboard extends Component {
                 }</div>
             </div>
             <div className='modeNavigation'>
-                <div onClick={() => this.changeMode(-1) }></div>
+                {this.state.allScoreboards.length && <div onClick={() => this.changeMode(-1) }></div>}
                 <Link to='/settings' className='Button back'>GAME MODES</Link>
-                <div onClick={() => this.changeMode(1) }></div>
+                {this.state.allScoreboards.length && <div onClick={() => this.changeMode(1) }></div>}
             </div>
         </div>
 }

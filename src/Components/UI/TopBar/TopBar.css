@@ -2,14 +2,13 @@
     width: 100%;
     position: absolute;
     top: 0;
-    display: flex;
-    justify-content: space-between;
     z-index: 2;
 }
 
 .TopBar > div {
     margin: .7em;
     font-size: 75%;
+    float: right;
 }
 
 .TopBar span {

@@ -9,7 +9,6 @@ import snake from './assets/snake.png'
 import { autoLogin } from './Store/actions/auth'
 import { changeMode } from './Store/actions/game'
 
-import { querryStringToGameMode } from './utils/querryString'
 
 import TopBar from './Components/UI/TopBar/TopBar'
 import Settings from './Components/Settings/Settings'
@@ -21,8 +20,6 @@ import Spinner from './Components/UI/Spinner/Spinner'
 class App extends Component {
   componentDidMount = () => {
     this.bannerPosition()
-    const searchParams = window.location.search
-    if( searchParams ) this.props.changeMode( querryStringToGameMode( searchParams ))
     this.props.autoLogin( this.props.history )
   }
 

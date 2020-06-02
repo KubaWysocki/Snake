@@ -53,8 +53,7 @@ const verify = ( auth, jsonData, router ) => dispatch => {
             dispatch( loginResponse( res, auth.username ))
             router.replace('/settings')
         }
-        else if( res.detail === 'No active account found with the given credentials' ) 
-            dispatch( loginError( res.detail ))
+        else dispatch( loginError( Object.entries( res ).map( el => el.join(': ')) ))
     })
 }
 
@@ -64,10 +63,13 @@ export const login = ({ auth, path }, router) => dispatch => {
 
     if ( path === 'verifyPassword') dispatch( verify( auth, jsonData, router ))
     else if( path === 'signupNewUser' ) {
+        const errors = []
         const validChars = /^[0-9a-zA-Z]+$/
-        if ( auth.username.length < 4 )          return dispatch( loginError( 'Nickname to short!' ))
-        if ( auth.username.length > 14 )         return dispatch( loginError( 'Nickname to long!' ))
-        if ( !validChars.test(auth.username) )   return dispatch( loginError( 'Invalid characters!' ))
+        if ( auth.username.length < 4 )         errors.push('Nickname to short!')
+        else if ( auth.username.length > 14 )   errors.push('Nickname to long!')
+        if ( !validChars.test(auth.username) )  errors.push('Invalid characters!')
+
+        if( errors.length ) return dispatch( loginError( errors )) 
 
         fetch( 'http://127.0.0.1:8000/api/users/', {
             method: 'POST',
@@ -80,7 +82,7 @@ export const login = ({ auth, path }, router) => dispatch => {
         .then( res => {
             if( res.username === auth.username ) dispatch( verify( auth, jsonData, router ))
             else {
-                const errors = Object.values( res ).flat()
+                const errors = Object.entries( res ).map( el => el.join(': '))
                 dispatch( loginError( errors ))
                 dispatch( loginRefresh() )
             }

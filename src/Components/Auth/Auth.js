@@ -48,13 +48,16 @@ class Auth extends Component {
                 <Link to='/settings' className='offline'> OFFLINE </Link>
             { this.props.loading ? <Spinner/> : null }
             </div>
-            { this.props.error ? <div className='error'> Something went wrong! <br/>{ this.props.error } </div> : null }
+            { this.props.errors
+                ? <div className='error'> Something went wrong!{ this.props.errors.map( err => <div key={err}>{err}</div> ) }</div>
+                : null
+            }
         </div>
 }
 
 const mapStateToProps = state => ({
     username: state.auth.username,
-    error: state.auth.error,
+    errors: state.auth.errors,
     loading: state.auth.loading
 })
 
