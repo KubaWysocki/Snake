@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { isEqual } from 'lodash'
 
+import config from '../../config'
 import { changeMode } from '../../Store/actions/game'
 
 import './Scoreboard.css'
@@ -22,7 +23,7 @@ class Scoreboard extends Component {
     }
     
     getScoreboard = activeGameMode =>
-        fetch( 'http://127.0.0.1:8000/api/scores?id=' + this.state.allScoreboards[activeGameMode].id, {
+        fetch( config.GET_SCOREBOARD + this.state.allScoreboards[activeGameMode].id, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${this.props.auth.access}`,
@@ -33,7 +34,7 @@ class Scoreboard extends Component {
         .then( res => this.setState({ scoreboard: res, loading: false, activeGameMode }) )
     
     getAllScoreboards = () =>
-        fetch( 'http://127.0.0.1:8000/api/gamemodes', {
+        fetch( config.GET_GAMEMODES, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${this.props.auth.access}`,
