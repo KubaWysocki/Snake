@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import config from '../../config'
 import './Board.css'
 
 import LoseScreen from './LoseScreen/LoseScreen'
@@ -107,7 +108,7 @@ class Board extends Component {
     gameOver = () => {
         this.setState(() => ({gameOver: true}))
         if( this.props.auth.access ) {
-            fetch( 'http://127.0.0.1:8000/api/scores', {
+            fetch( config.POST_SCORE, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${this.props.auth.access}`,

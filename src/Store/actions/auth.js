@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes'
+import config from '../../config'
 
 const authStart = () => ({
     type: actionTypes.START_AUTH
@@ -38,7 +39,7 @@ export const logout = router => {
 }
 
 const verify = ( auth, jsonData, router ) => dispatch => {
-    fetch( 'http://127.0.0.1:8000/api/token/', {
+    fetch( config.LOGIN, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -71,7 +72,7 @@ export const login = ({ auth, path }, router) => dispatch => {
 
         if( errors.length ) return dispatch( loginError( errors )) 
 
-        fetch( 'http://127.0.0.1:8000/api/users/', {
+        fetch( config.CREATE_USER, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -100,7 +101,7 @@ export const autoLogin = router => dispatch => {
         router.replace('/auth')
     }
     else {
-        fetch( 'http://127.0.0.1:8000/api/token/refresh/', {
+        fetch( config.AUTO_LOGIN, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
