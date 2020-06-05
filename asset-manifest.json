@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Snake/static/css/main.c43b9424.chunk.css",
+    "main.css": "/Snake/static/css/main.1507be1c.chunk.css",
     "main.js": "/Snake/static/js/main.9757fd2b.chunk.js",
     "main.js.map": "/Snake/static/js/main.9757fd2b.chunk.js.map",
     "runtime-main.js": "/Snake/static/js/runtime-main.a5adae72.js",
@@ -8,9 +8,9 @@
     "static/js/2.d8f2641f.chunk.js": "/Snake/static/js/2.d8f2641f.chunk.js",
     "static/js/2.d8f2641f.chunk.js.map": "/Snake/static/js/2.d8f2641f.chunk.js.map",
     "index.html": "/Snake/index.html",
-    "precache-manifest.bba2c80cae9540635cfa14147b1a81b7.js": "/Snake/precache-manifest.bba2c80cae9540635cfa14147b1a81b7.js",
+    "precache-manifest.2bee46d854dfc1b5116b943af02c6ee7.js": "/Snake/precache-manifest.2bee46d854dfc1b5116b943af02c6ee7.js",
     "service-worker.js": "/Snake/service-worker.js",
-    "static/css/main.c43b9424.chunk.css.map": "/Snake/static/css/main.c43b9424.chunk.css.map",
+    "static/css/main.1507be1c.chunk.css.map": "/Snake/static/css/main.1507be1c.chunk.css.map",
     "static/js/2.d8f2641f.chunk.js.LICENSE.txt": "/Snake/static/js/2.d8f2641f.chunk.js.LICENSE.txt",
     "static/media/Scoreboard.css": "/Snake/static/media/arrow.fbe31c4a.png",
     "static/media/snake.png": "/Snake/static/media/snake.266d8a41.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.a5adae72.js",
     "static/js/2.d8f2641f.chunk.js",
-    "static/css/main.c43b9424.chunk.css",
+    "static/css/main.1507be1c.chunk.css",
     "static/js/main.9757fd2b.chunk.js"
   ]
 }
