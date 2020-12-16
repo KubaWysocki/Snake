@@ -12,7 +12,7 @@ or download and run locally using npm
 
 ***No ads! Play for fun and challenge your friends!***
 
-***Add live demo to homepage on your phone :fire:***
+***Add live demo PWA to homepage on your phone :fire:***
 
 ## Tech stack
 - react
