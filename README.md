@@ -19,5 +19,5 @@ or download and run locally using npm
 - redux, redux-thunk
 - react-transition-group
 - react-router
-- firebase, axios
+- axios
 - lodash
