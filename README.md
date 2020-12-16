@@ -21,3 +21,5 @@ or download and run locally using npm
 - react-router
 - axios
 - lodash
+
+[+ python django  rest api](https://github.com/KubaWysocki/snake-rest-api)
